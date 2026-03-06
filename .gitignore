@@ -1,3 +1,11 @@
+# Environment — NEVER commit
+.env
+**/.env
+backend/.env
+
+# macOS
+.DS_Store
+
 # Logs
 logs
 *.log
