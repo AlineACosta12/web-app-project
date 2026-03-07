@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MoodFlix Wireframes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#e8e8e8;color:#222}
+.page-title{text-align:center;padding:28px;font-size:20px;font-weight:bold;letter-spacing:2px;border-bottom:3px solid #333;background:#f5f5f5}
+.page-title span{font-size:12px;font-weight:normal;display:block;margin-top:6px;color:#666}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding:36px;max-width:1400px;margin:0 auto}
+.wf{background:#fff;border:2px solid #333;border-radius:4px;overflow:hidden;box-shadow:4px 4px 0 #333}
+.wf-hdr{background:#222;color:#fff;padding:9px 14px;font-size:11px;font-weight:bold;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+.num{background:#fff;color:#222;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold}
+.navbar{background:#222;display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:2px solid #444}
+.logo{background:#555;color:#fff;padding:3px 8px;font-size:11px;font-weight:bold;border-radius:2px}
+.navlinks{display:flex;gap:6px}
+.nl{border:1px solid #666;padding:3px 7px;font-size:9px;color:#ccc;border-radius:2px}
+.nl.active{background:#555;color:#fff}
+.nl.btn{background:#444;color:#fff}
+.sec{padding:12px 14px;border-bottom:1px dashed #ddd}
+.sec:last-child{border-bottom:none}
+.lbl{font-size:8px;font-weight:bold;letter-spacing:1px;color:#888;text-transform:uppercase;margin-bottom:7px}
+.hero{background:#222;color:#fff;padding:20px 14px;text-align:center}
+.hero h2{font-size:17px;margin-bottom:5px}
+.hero p{font-size:9px;color:#aaa}
+.mood-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:4px}
+.mc{border:2px solid #333;border-radius:4px;padding:10px 5px;text-align:center;font-size:9px;font-weight:bold}
+.mc .e{font-size:18px;display:block;margin-bottom:3px}
+.btn{background:#333;color:#fff;border:2px solid #333;padding:5px 12px;font-size:9px;font-family:'Courier New',monospace;border-radius:3px;display:inline-block;font-weight:bold}
+.btn.sm{padding:3px 8px;font-size:8px}
+.btn.outline{background:#fff;color:#333}
+.btn.danger{background:#c0392b;border-color:#c0392b;color:#fff}
+.arow{display:flex;gap:7px;flex-wrap:wrap}
+.mgrid{display:grid;gap:7px}
+.cols4{grid-template-columns:repeat(4,1fr)}
+.cols3{grid-template-columns:repeat(3,1fr)}
+.mcard{border:1px solid #ccc;border-radius:3px;overflow:hidden}
+.mcard .poster{background:#ddd;height:70px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#888;border-bottom:1px solid #ccc}
+.mcard .info{padding:5px}
+.mcard .title{font-size:8px;font-weight:bold;margin-bottom:2px}
+.mcard .meta{font-size:7px;color:#888;margin-bottom:3px}
+.mcard .acts{display:flex;gap:3px}
+.inp{border:1px solid #999;padding:5px 8px;font-size:9px;border-radius:3px;color:#aaa;background:#fafafa;width:100%}
+.sel{border:1px solid #999;padding:3px 7px;font-size:8px;border-radius:3px;background:#fafafa;font-family:'Courier New',monospace}
+.tabs{display:flex;border-bottom:2px solid #333;margin-bottom:8px}
+.tab{padding:5px 10px;font-size:9px;font-weight:bold;border:1px solid #ccc;border-bottom:none;background:#f5f5f5}
+.tab.active{background:#333;color:#fff;border-color:#333}
+.wi{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px dashed #ddd;font-size:9px}
+.wi:last-child{border-bottom:none}
+.wthumb{background:#ddd;width:32px;height:46px;border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:7px;color:#888}
+.winfo{flex:1}
+.wtitle{font-weight:bold;font-size:9px;margin-bottom:2px}
+.wmeta{font-size:8px;color:#888}
+.wacts{display:flex;flex-direction:column;gap:3px}
+.ri{display:flex;gap:8px;padding:7px 0;border-bottom:1px dashed #ddd}
+.ri:last-child{border-bottom:none}
+.rposter{background:#ddd;width:28px;height:40px;border-radius:2px;flex-shrink:0}
+.rcontent{flex:1}
+.rtitle{font-weight:bold;font-size:9px;margin-bottom:2px}
+.stars{font-size:10px;margin-bottom:2px}
+.rtext{font-size:8px;color:#555}
+.statrow{display:flex;gap:8px;margin-bottom:8px}
+.statbox{flex:1;border:1px solid #ccc;border-radius:3px;padding:7px;text-align:center}
+.statbox .sn{font-size:16px;font-weight:bold}
+.statbox .sl{font-size:7px;color:#888;text-transform:uppercase}
+.profile-hdr{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:2px solid #eee}
+.avatar{background:#ddd;width:50px;height:50px;border-radius:50%;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;color:#888}
+.pname{font-size:14px;font-weight:bold}
+.pemail{font-size:9px;color:#888}
+.detail-layout{display:flex;gap:10px}
+.dposter{background:#ddd;width:100px;min-width:100px;height:145px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;color:#888;border:1px dashed #aaa}
+.dinfo{flex:1}
+.dtitle{font-size:13px;font-weight:bold;margin-bottom:3px}
+.dmeta{font-size:8px;color:#888;margin-bottom:6px}
+.doverview{font-size:8px;color:#444;line-height:1.5;margin-bottom:7px;border-left:3px solid #ddd;padding-left:7px}
+.dacts{display:flex;flex-direction:column;gap:5px}
+.formcard{max-width:260px;margin:14px auto;border:1px solid #ccc;border-radius:4px;padding:14px}
+.formtitle{font-size:13px;font-weight:bold;text-align:center;margin-bottom:12px}
+.fg{margin-bottom:8px}
+.fg label{font-size:8px;font-weight:bold;text-transform:uppercase;letter-spacing:1px;color:#666;display:block;margin-bottom:3px}
+.fswitch{text-align:center;font-size:8px;color:#888;margin-top:10px}
+.fswitch a{color:#333;font-weight:bold;text-decoration:underline}
+.bread{font-size:8px;color:#888;margin-bottom:5px}
+.bread span{color:#333;font-weight:bold}
+.note{font-size:7px;color:#999;font-style:italic;margin-top:3px}
+.footer{text-align:center;padding:20px;font-size:9px;color:#888;border-top:2px solid #ccc;background:#f5f5f5;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="page-title">MOODFLIX — LOW-FIDELITY WIREFRAMES<span>Assignment 1: Design Document &nbsp;|&nbsp; Web Technologies &nbsp;|&nbsp; Griffith College Cork &nbsp;|&nbsp; 2026</span></div>
+<div class="grid">
+
+<!-- SCREEN 1: HOME -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 1 — HOME PAGE (MOOD PICKER)<div class="num">1</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl">Big Screen</div><div class="nl">Fortune Teller</div><div class="nl btn">Login</div><div class="nl btn">Register</div></div>
+</div>
+<div class="hero"><h2>What's your mood tonight?</h2><p>Pick a mood and we'll find the perfect movie for you</p></div>
+<div class="sec">
+  <div class="lbl">Select your mood</div>
+  <div class="mood-grid">
+    <div class="mc"><span class="e">😄</span>Happy</div>
+    <div class="mc"><span class="e">😢</span>Sad</div>
+    <div class="mc"><span class="e">💕</span>Romantic</div>
+    <div class="mc"><span class="e">💪</span>Motivated</div>
+    <div class="mc"><span class="e">😐</span>Bored</div>
+    <div class="mc"><span class="e">🤯</span>Mind Blown</div>
+  </div>
+</div>
+<div class="sec">
+  <div class="lbl">Quick actions</div>
+  <div class="arow"><div class="btn">🔮 Fortune Teller</div><div class="btn outline">🎬 Big Screen</div><div class="btn outline">🔍 Search</div></div>
+  <div class="note">Fortune Teller → random pick | Big Screen → now playing in cinemas</div>
+</div>
+</div>
+
+<!-- SCREEN 2: RESULTS -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 2 — RESULTS PAGE (MOOD RESULTS)<div class="num">2</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl active">😄 Happy</div><div class="nl">Watchlist</div><div class="nl">Profile</div></div>
+</div>
+<div class="sec">
+  <div class="bread">Home &rsaquo; <span>Happy Movies</span></div>
+  <div class="arow" style="margin-bottom:7px;align-items:center;">
+    <span style="font-size:8px;font-weight:bold;">Filter:</span>
+    <select class="sel"><option>All Years</option></select>
+    <select class="sel"><option>Sort: Rating</option></select>
+    <div class="btn sm" style="margin-left:auto;">🎲 Pick for Me</div>
+  </div>
+  <div class="lbl">Showing 20 movies for "Happy"</div>
+  <div class="mgrid cols4">
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2023 · ★7.4</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2022 · ★8.1</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2024 · ★6.9</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2023 · ★7.8</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2021 · ★7.2</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2023 · ★7.6</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2022 · ★8.0</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+    <div class="mcard"><div class="poster">POSTER</div><div class="info"><div class="title">Movie Title</div><div class="meta">2024 · ★6.5</div><div class="acts"><div class="btn sm">+List</div><div class="btn sm outline">Info</div></div></div></div>
+  </div>
+  <div style="text-align:center;margin-top:9px;"><div class="btn outline">Load More</div></div>
+</div>
+</div>
+
+<!-- SCREEN 3: MOVIE DETAIL -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 3 — MOVIE DETAIL PAGE<div class="num">3</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl">← Back</div><div class="nl">Watchlist</div><div class="nl">Profile</div></div>
+</div>
+<div class="sec">
+  <div class="bread">Home &rsaquo; Happy &rsaquo; <span>Movie Title</span></div>
+  <div class="detail-layout">
+    <div class="dposter">MOVIE<br>POSTER<br>w500</div>
+    <div class="dinfo">
+      <div class="dtitle">Movie Title Here</div>
+      <div class="dmeta">2023 · 118 min · Comedy · ★ 7.8 TMDB</div>
+      <div class="doverview">Short overview paragraph from TMDB API describing the plot without spoilers. 2-3 sentences shown here.</div>
+      <div class="dacts">
+        <div style="display:flex;gap:5px;align-items:center;">
+          <select class="sel"><option>Plan to Watch</option><option>Watching</option><option>Watched</option></select>
+          <div class="btn sm">+ Watchlist</div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:center;">
+          <span style="font-size:9px;font-weight:bold;">Rating:</span>
+          <span style="font-size:14px;letter-spacing:2px;">☆☆☆☆☆</span>
+        </div>
+        <div class="btn outline sm">▶ Watch Trailer</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sec">
+  <div class="lbl">Write a review (optional)</div>
+  <textarea class="inp" rows="3" style="resize:none;" placeholder="Share your thoughts... (max 500 chars)"></textarea>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:5px;">
+    <span class="note">Star rating saved via POST /api/ratings</span>
+    <div class="btn sm">Save Review</div>
+  </div>
+</div>
+<div class="sec">
+  <div class="lbl">Similar movies</div>
+  <div class="mgrid cols4">
+    <div class="mcard"><div class="poster" style="height:55px;">POSTER</div><div class="info"><div class="title">Similar</div></div></div>
+    <div class="mcard"><div class="poster" style="height:55px;">POSTER</div><div class="info"><div class="title">Similar</div></div></div>
+    <div class="mcard"><div class="poster" style="height:55px;">POSTER</div><div class="info"><div class="title">Similar</div></div></div>
+    <div class="mcard"><div class="poster" style="height:55px;">POSTER</div><div class="info"><div class="title">Similar</div></div></div>
+  </div>
+</div>
+</div>
+
+<!-- SCREEN 4: LOGIN/REGISTER -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 4 — LOGIN / REGISTER<div class="num">4</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl active">Login</div><div class="nl">Register</div></div>
+</div>
+<div class="formcard">
+  <div class="formtitle">Login to MoodFlix</div>
+  <div class="fg"><label>Email address</label><div class="inp" style="color:#aaa;">user@email.com</div></div>
+  <div class="fg"><label>Password</label><div style="position:relative;"><div class="inp" style="color:#aaa;">••••••••</div><span style="position:absolute;right:8px;top:5px;font-size:8px;color:#888;">Show</span></div></div>
+  <div class="btn" style="width:100%;text-align:center;display:block;">Login</div>
+  <div class="fswitch">Don't have an account? <a href="#">Register here</a></div>
+</div>
+<div style="text-align:center;font-size:8px;color:#bbb;padding:4px 0;">— OR —</div>
+<div class="formcard" style="border-color:#bbb;background:#fafafa;">
+  <div class="formtitle" style="font-size:11px;color:#888;">Register (alternate view)</div>
+  <div class="fg"><label>Username</label><div class="inp" style="color:#aaa;">Choose a username</div></div>
+  <div class="fg"><label>Email</label><div class="inp" style="color:#aaa;">user@email.com</div></div>
+  <div class="fg"><label>Password</label><div class="inp" style="color:#aaa;">Min 6 characters</div></div>
+  <div class="fg"><label>Confirm password</label><div class="inp" style="color:#aaa;">Repeat password</div></div>
+  <div class="btn" style="width:100%;text-align:center;display:block;">Create Account</div>
+  <div class="fswitch">Have an account? <a href="#">Login here</a></div>
+</div>
+<div class="note" style="text-align:center;padding-bottom:8px;">Client-side validation on all fields before API call</div>
+</div>
+
+<!-- SCREEN 5: WATCHLIST -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 5 — WATCHLIST (PROTECTED)<div class="num">5</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl active">Watchlist</div><div class="nl">Profile</div><div class="nl btn">Logout</div></div>
+</div>
+<div class="sec">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+    <div style="font-size:13px;font-weight:bold;">My Watchlist</div>
+    <span style="font-size:8px;color:#888;">12 movies total</span>
+  </div>
+  <div class="tabs">
+    <div class="tab active">Plan to Watch (5)</div>
+    <div class="tab">Watching (3)</div>
+    <div class="tab">Watched (4)</div>
+  </div>
+  <div class="wi">
+    <div class="wthumb">IMG</div>
+    <div class="winfo"><div class="wtitle">Movie Title One</div><div class="wmeta">2023 · Comedy · Added 3 days ago</div></div>
+    <div class="wacts"><select class="sel"><option>Plan to Watch</option></select><div class="btn sm danger">Remove</div></div>
+  </div>
+  <div class="wi">
+    <div class="wthumb">IMG</div>
+    <div class="winfo"><div class="wtitle">Another Movie Title</div><div class="wmeta">2022 · Drama · Added 1 week ago</div></div>
+    <div class="wacts"><select class="sel"><option>Plan to Watch</option></select><div class="btn sm danger">Remove</div></div>
+  </div>
+  <div class="wi">
+    <div class="wthumb">IMG</div>
+    <div class="winfo"><div class="wtitle">Third Movie Here</div><div class="wmeta">2024 · Action · Added today</div></div>
+    <div class="wacts"><select class="sel"><option>Plan to Watch</option></select><div class="btn sm danger">Remove</div></div>
+  </div>
+  <div class="wi">
+    <div class="wthumb">IMG</div>
+    <div class="winfo"><div class="wtitle">Fourth Movie Title</div><div class="wmeta">2021 · Sci-Fi · Added 2 weeks ago</div></div>
+    <div class="wacts"><select class="sel"><option>Plan to Watch</option></select><div class="btn sm danger">Remove</div></div>
+  </div>
+  <div class="note">Status dropdown → PUT /api/watchlist/:tmdbId — updates instantly, no page reload</div>
+</div>
+</div>
+
+<!-- SCREEN 6: PROFILE -->
+<div class="wf">
+<div class="wf-hdr">SCREEN 6 — PROFILE PAGE (PROTECTED)<div class="num">6</div></div>
+<div class="navbar">
+  <div class="logo">🎬 MoodFlix</div>
+  <div class="navlinks"><div class="nl">Watchlist</div><div class="nl active">Profile</div><div class="nl btn">Logout</div></div>
+</div>
+<div class="profile-hdr">
+  <div class="avatar">IMG</div>
+  <div>
+    <div class="pname">username_here</div>
+    <div class="pemail">user@email.com</div>
+    <div style="margin-top:4px;"><div class="btn sm outline">Edit Profile</div></div>
+  </div>
+</div>
+<div class="sec">
+  <div class="lbl">My stats</div>
+  <div class="statrow">
+    <div class="statbox"><div class="sn">12</div><div class="sl">Watchlisted</div></div>
+    <div class="statbox"><div class="sn">4</div><div class="sl">Watched</div></div>
+    <div class="statbox"><div class="sn">4.2</div><div class="sl">Avg Rating</div></div>
+    <div class="statbox"><div class="sn">6</div><div class="sl">Reviews</div></div>
+  </div>
+</div>
+<div class="sec">
+  <div class="lbl">My ratings &amp; reviews</div>
+  <div class="ri">
+    <div class="rposter"></div>
+    <div class="rcontent"><div class="rtitle">Movie Title One</div><div class="stars">★★★★☆</div><div class="rtext">"Short review text written by the user about this movie..."</div></div>
+    <div class="btn sm danger" style="height:fit-content;margin-left:4px;">Del</div>
+  </div>
+  <div class="ri">
+    <div class="rposter"></div>
+    <div class="rcontent"><div class="rtitle">Another Movie Title</div><div class="stars">★★★☆☆</div><div class="rtext">"Another review from the user about this film..."</div></div>
+    <div class="btn sm danger" style="height:fit-content;margin-left:4px;">Del</div>
+  </div>
+  <div class="ri">
+    <div class="rposter"></div>
+    <div class="rcontent"><div class="rtitle">Third Movie Title</div><div class="stars">★★★★★</div><div class="rtext">"Loved this one. Really great with excellent performances."</div></div>
+    <div class="btn sm danger" style="height:fit-content;margin-left:4px;">Del</div>
+  </div>
+  <div class="note">Ratings linked to user via userId in MongoDB · DELETE /api/ratings/:tmdbId</div>
+</div>
+</div>
+
+</div>
+<div class="footer">
+  MoodFlix — Low-Fidelity Wireframes &nbsp;|&nbsp; Assignment 1: Design Document &nbsp;|&nbsp; Web Technologies &nbsp;|&nbsp; Griffith College Cork &nbsp;|&nbsp; 2026<br>
+  <span style="margin-top:4px;display:block;">Aline Andrade Costa (3144929) &nbsp;·&nbsp; Sergio Alves da Silva &nbsp;·&nbsp; Byron Gift Ochieng Makasembo (3062457)</span>
+</div>
+</body>
+</html>
