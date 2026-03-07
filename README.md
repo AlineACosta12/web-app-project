@@ -22,6 +22,7 @@ This repository contains a group web application project and its full design/doc
 ## Team
 - Aline Andrade Costa
 - Sergio Alves da Silva
+- Byron Gift Ochieng Makasembo
 
 ## Project Goals (to be finalised)
 - Build a web application that solves a real user problem
