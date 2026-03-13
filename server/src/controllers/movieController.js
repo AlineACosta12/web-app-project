@@ -78,7 +78,7 @@ const getRandomMovie = async (req, res) => {
 const getNowPlaying = async (req, res) => {
   try {
     const response = await tmdb.get('/movie/now_playing', {
-      params: { page: 1 },
+      params: { page: 1, region: 'IE' },
     })
     res.json(response.data)
   } catch (err) {
