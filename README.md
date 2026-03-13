@@ -1,94 +1,210 @@
-# React + Vite
+# MoodPlay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mood-based movie recommendation web app. Tell us how you're feeling — we'll find something worth watching.
 
-Currently, two official plugins are available:
+Built as part of the Web Technologies module at Griffith College Cork.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Web Application Project
-
-## Description
-This repository contains a group web application project and its full design/documentation pack. The goal is to complete the full software/web development process from start to finish: **idea → research → requirements → brief → sitemap/wireframes → build (DB + frontend + backend) → testing → deployment**.
+---
 
 ## Team
-- Aline Andrade Costa
-- Sergio Alves da Silva
-- Byron Gift Ochieng Makasembo
 
-## Project Goals (to be finalised)
-- Build a web application that solves a real user problem
-- Deliver an MVP with clear core functionality (no scope creep)
-- Produce a design and documentation pack (brief, sitemap, wireframes, testing evidence)
+| Name | Student No. | Role |
+|---|---|---|
+| Byron Gift Ochieng Makasembo | 3062457 | Backend, Auth, TMDB, Git, Deployment |
+| Aline Andrade Costa | 3144929 | Frontend, React, UI |
+| Sergio Alves da Silva | 3139115 | Frontend support, CSS, Design |
 
-## Target Audience (to be finalised)
-Define 1–2 main user groups and their needs (e.g., students, renters, local community, small business customers).
+Module: Web Technologies — Year 3 | Griffith College Cork | Lecturer: Martin Dow
 
-## Core Functionality (MVP) (to be finalised)
-Example structure (replace with your final scope):
-- User authentication (sign up / log in / log out)
-- Create / view / update / delete records relevant to the app
-- Search and filtering
-- Responsive UI and accessible navigation
+---
 
-## Project Workflow (Checklist)
-1. **Idea & problem definition**
-2. **Research + requirements**
-3. **Project brief** (summary, goals, audience, key message, competitor review)
-4. **Scope + MVP definition**
-5. **Sitemap + user journeys**
-6. **Wireframes (and optional mockups)**
-7. **Early feedback + iteration**
-8. **Build**
-   - Database design
-   - Frontend pages/components
-   - Backend logic/API + security
-9. **Testing**
-   - Links/forms/validation
-   - Usability + navigation
-   - Cross-browser + responsive checks
-10. **Deploy**
+## What It Does
+
+Users pick a mood from six options (Happy, Sad, Romantic, Motivated, Bored, Mind-blown) and get a curated list of movies via the TMDB API. Additional features include a Fortune Teller (random movie pick), Big Screen (now playing in cinemas), a personal watchlist with status tracking, and a star rating + review system.
+
+---
+
+## Tech Stack
+
+**Frontend:** React 18, Vite, React Router v6, Axios
+
+**Backend:** Node.js 20, Express 4, Mongoose 8, MongoDB 7
+
+**Auth:** bcryptjs (10 rounds), JSON Web Tokens (7-day expiry)
+
+**External API:** TMDB API v3 — all calls are proxied through the backend, the key never reaches the client
+
+---
+
+## Features
+
+| # | Feature | Description |
+|---|---|---|
+| F1 | Mood Browsing | Pick a mood, get a genre-matched movie list |
+| F2 | Fortune Teller | Random movie recommendation |
+| F3 | Big Screen | Movies currently in cinemas |
+| F4 | Auth | Register, login, JWT-protected sessions |
+| F5 | Watchlist | Add movies, track status (Plan / Watching / Watched) |
+| F6 | Ratings | Rate movies 1–5 stars with an optional written review |
+
+---
+
+## Project Structure
+
+```
+web-app-project/
+├── client/                  # React frontend (Vite)
+│   └── src/
+│       ├── components/      # Reusable UI components
+│       ├── pages/           # Route-level page components
+│       └── main.jsx
+├── server/                  # Express backend
+│   └── src/
+│       ├── controllers/     # Route handler logic
+│       ├── middleware/       # JWT auth middleware
+│       ├── models/          # Mongoose schemas
+│       ├── routes/          # Express routers
+│       └── app.js
+├── docs/                    # Wireframes and project documentation
+└── README.md
+```
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+- Node.js 20+
+- MongoDB 7 running locally (or a MongoDB Atlas URI)
+- A TMDB API key — get one free at [themoviedb.org](https://www.themoviedb.org/settings/api)
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/AlineACosta12/web-app-project.git
+cd web-app-project
+```
+
+### 2. Set up the backend
+
+```bash
+cd server
+npm install
+```
+
+Create a `.env` file in `/server` (use `.env.example` as a template):
+
+```
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/moodplay
+JWT_SECRET=your_long_random_secret_here
+TMDB_API_KEY=your_tmdb_api_key_here
+TMDB_BASE_URL=https://api.themoviedb.org/3
+```
+
+Start the server:
+
+```bash
+npm run dev
+```
+
+### 3. Set up the frontend
+
+```bash
+cd ../client
+npm install
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`. The backend runs on `http://localhost:5000`.
+
+---
+
+## API Endpoints
+
+### Auth (public)
+| Method | Endpoint | Body |
+|---|---|---|
+| POST | `/api/auth/register` | `{ username, email, password }` |
+| POST | `/api/auth/login` | `{ email, password }` |
+
+### Movies (public)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/movies/mood/:mood` | Movies by mood |
+| GET | `/api/movies/random` | Random movie pick |
+| GET | `/api/movies/nowplaying` | Currently in cinemas |
+| GET | `/api/movies/search?q=` | Search by title |
+| GET | `/api/movies/:tmdbId` | Single movie detail |
+
+Valid mood values: `happy` `sad` `romantic` `motivated` `bored` `mindblow`
+
+### Watchlist (JWT required)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/watchlist` | Get user's watchlist |
+| POST | `/api/watchlist/:tmdbId` | Add a movie |
+| PUT | `/api/watchlist/:tmdbId` | Update status |
+| DELETE | `/api/watchlist/:tmdbId` | Remove a movie |
+
+### Ratings (JWT required)
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/ratings/:tmdbId` | Get user's rating for a movie |
+| POST | `/api/ratings/:tmdbId` | Submit a rating and review |
+| DELETE | `/api/ratings/:tmdbId` | Delete a rating |
+
+Protected routes require the header: `Authorization: Bearer <token>`
+
+---
+
+## Project Workflow
+
+1. **Idea & problem definition** ✅
+2. **Research + requirements** ✅
+3. **Project brief** ✅
+4. **Scope + MVP definition** ✅
+5. **Sitemap + user journeys** ✅
+6. **Wireframes** ✅ — see `/docs/wireframes.html`
+7. **Build**
+   - Database design ✅
+   - Backend API + auth + security 🔨 in progress
+   - Frontend pages and components 🔨 in progress
+8. **Testing**
+   - API endpoint tests
+   - Form validation
+   - Responsive and browser checks
+9. **Deploy**
    - Hosting + SSL
    - Live demo link
 
-## Repository Structure (planned)
-- `/docs/` — brief, research, competitor review, sitemap, wireframes, test evidence
-- `/src/` — application source code (frontend + backend)
-- `/assets/` — images, icons, media
-- `/database/` — schema, migrations, seed data (if used)
-- `README.md` — project overview and setup
-
-## Installation / Setup (update once stack is chosen)
-> Add exact steps once you decide your stack (e.g., PHP/MySQL, Node/Express, etc.)
-
-Example placeholder:
-1. Clone the repo
-2. Install dependencies
-3. Configure environment variables
-4. Run database setup
-5. Start the server
-6. Open the app in the browser
-
-## Usage (update once features are implemented)
-Describe the main user flows:
-- Create an account → log in
-- Use the main features (create/search/update/delete)
-- View results and manage data
+---
 
 ## Testing
+
 Testing evidence will be stored in `/docs/testing/` and will include:
+- API endpoint tests (auth, movies, watchlist, ratings)
 - Form validation tests
-- Link/navigation tests
-- Responsive and browser checks
-- User feedback notes 
+- Link and navigation tests
+- Responsive and cross-browser checks
+- User feedback notes
+
+---
+
+## Git Workflow
+
+```
+main  ←  dev  ←  feature/byron-*
+                  feature/aline-*
+                  feature/sergio-*
+```
+
+- `main` is protected — never push directly
+- All feature branches merge into `dev` first, then `dev` merges into `main`
+- Commit prefixes: `feat` / `fix` / `chore` / `docs` / `style`
+
+---
 
 ## Project Status
-Currently in planning / research stage.
+
+Backend in active development. Auth and TMDB movie routes complete. Watchlist and ratings routes in progress.
