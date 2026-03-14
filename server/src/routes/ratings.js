@@ -3,10 +3,10 @@
 // Allows users to rate and review movies (1–5 stars, optional review text).
 // All routes are protected — valid JWT required.
 // userId always comes from the verified token, not the request body.
-// Full implementation on feature/byron-ratings.
 
 const express = require('express')
 const protect = require('../middleware/auth')
+const { getRating, submitRating, deleteRating } = require('../controllers/ratingController')
 
 const router = express.Router()
 
@@ -15,23 +15,14 @@ router.use(protect)
 
 // GET /api/ratings/:tmdbId
 // Returns the logged-in user's rating for a specific movie
-router.get('/:tmdbId', async (req, res) => {
-  // TODO: feature/byron-ratings
-  res.status(501).json({ message: 'Not implemented yet' })
-})
+router.get('/:tmdbId', getRating)
 
 // POST /api/ratings/:tmdbId
-// Submits or updates a rating for a movie
-router.post('/:tmdbId', async (req, res) => {
-  // TODO: feature/byron-ratings
-  res.status(501).json({ message: 'Not implemented yet' })
-})
+// Submits a rating and optional review — body: { title, score, review }
+router.post('/:tmdbId', submitRating)
 
 // DELETE /api/ratings/:tmdbId
 // Removes the user's rating for a movie
-router.delete('/:tmdbId', async (req, res) => {
-  // TODO: feature/byron-ratings
-  res.status(501).json({ message: 'Not implemented yet' })
-})
+router.delete('/:tmdbId', deleteRating)
 
 module.exports = router
