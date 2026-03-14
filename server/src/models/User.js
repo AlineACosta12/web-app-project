@@ -36,10 +36,10 @@ const userSchema = new mongoose.Schema({
 })
 
 // Hash the password before saving if it has been modified
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next()
+// Mongoose 8: async pre hooks resolve via the returned promise — no next() needed
+userSchema.pre('save', async function () {
+  if (!this.isModified('password')) return
   this.password = await bcrypt.hash(this.password, 10)
-  next()
 })
 
 // Instance method to compare a plain-text password against the stored hash
