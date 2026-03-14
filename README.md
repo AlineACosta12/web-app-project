@@ -95,7 +95,7 @@ npm install
 Create a `.env` file in `/server` (use `.env.example` as a template):
 
 ```
-PORT=5000
+PORT=5001
 MONGODB_URI=mongodb://localhost:27017/moodplay
 JWT_SECRET=your_long_random_secret_here
 TMDB_API_KEY=your_tmdb_api_key_here
@@ -116,7 +116,7 @@ npm install
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`. The backend runs on `http://localhost:5000`.
+The app will be available at `http://localhost:5173`. The backend runs on `http://localhost:5001`.
 
 ---
 
@@ -168,7 +168,7 @@ Protected routes require the header: `Authorization: Bearer <token>`
 6. **Wireframes** ✅ — see `/docs/wireframes.html`
 7. **Build**
    - Database design ✅
-   - Backend API + auth + security 🔨 in progress
+   - Backend API + auth + security ✅
    - Frontend pages and components 🔨 in progress
 8. **Testing**
    - API endpoint tests
@@ -207,4 +207,4 @@ main  ←  dev  ←  feature/byron-*
 
 ## Project Status
 
-Backend in active development. Auth and TMDB movie routes complete. Watchlist and ratings routes in progress.
+Backend complete. All 6 features built and tested. Frontend in progress.
