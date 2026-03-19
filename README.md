@@ -30,7 +30,7 @@ Users pick a mood from six options (Happy, Sad, Romantic, Motivated, Bored, Mind
 
 **Backend:** Node.js 20, Express 4, Mongoose 8, MongoDB 7
 
-**Auth:** bcryptjs (10 rounds), JSON Web Tokens (7-day expiry)
+**Auth:** bcryptjs (10 rounds), JSON Web Tokens (7-day expiry), express-session, cookie-parser
 
 **External API:** TMDB API v3 — all calls are proxied through the backend, the key never reaches the client
 
@@ -127,6 +127,8 @@ The app will be available at `http://localhost:5173`. The backend runs on `http:
 |---|---|---|
 | POST | `/api/auth/register` | `{ username, email, password }` |
 | POST | `/api/auth/login` | `{ email, password }` |
+| POST | `/api/auth/logout` | Clears cookie and destroys session |
+| GET | `/api/auth/me` | Returns current user (JWT required) |
 
 ### Movies (public)
 | Method | Endpoint | Description |
@@ -154,7 +156,9 @@ Valid mood values: `happy` `sad` `romantic` `motivated` `bored` `mindblow`
 | POST | `/api/ratings/:tmdbId` | Submit a rating and review |
 | DELETE | `/api/ratings/:tmdbId` | Delete a rating |
 
-Protected routes require the header: `Authorization: Bearer <token>`
+Protected routes accept the JWT via either:
+- `Authorization: Bearer <token>` header (Axios default)
+- `token` httpOnly cookie (set automatically by the server on login)
 
 ---
 
@@ -205,6 +209,59 @@ main  ←  dev  ←  feature/byron-*
 
 ---
 
+## Assignment 2 — Server-Side Components
+
+### What was implemented this iteration
+
+| Area | Detail | Author |
+|---|---|---|
+| Express server scaffold | CORS, dotenv, MongoDB connect, health check | Byron |
+| JWT authentication | Register, login, logout, `/api/auth/me` | Byron |
+| httpOnly cookie auth | JWT stored in httpOnly cookie on login/register | Byron |
+| Server-side sessions | express-session stores userId + username after login | Byron |
+| Auth middleware | Accepts JWT from Authorization header or cookie | Byron |
+| TMDB movie proxy | All 5 movie endpoints — mood, random, nowplaying, search, detail | Byron |
+| Watchlist CRUD | GET / POST / PUT / DELETE — all userId-isolated | Byron |
+| Ratings CRUD | GET / POST / DELETE — all userId-isolated | Byron |
+| MongoDB schemas | User, WatchlistItem, Rating with unique indexes | Byron |
+| Server-side validation | All routes validate inputs and return `{ message }` on error | Byron |
+| Frontend (React) | All 6 pages and components connected to the API | Aline / Sergio |
+
+### Division of Labour
+
+Byron Gift Ochieng Makasembo — entire backend: Express server, all route logic, auth system (JWT + sessions + cookies), TMDB API integration, Mongoose models, middleware, git workflow, deployment.
+
+Aline Andrade Costa — frontend: React pages, component structure, Axios integration, UI.
+
+Sergio Alves da Silva — frontend support: CSS, styling, design.
+
+### Changes from Assignment 1 plan
+
+No changes to scope. All 6 features planned in Assignment 1 have been implemented as specified.
+
+Session/cookie handling was added beyond the original plan to satisfy Assignment 2 requirements: the JWT is now stored in an httpOnly cookie and user state is maintained in a server-side express-session.
+
+### Extra Credit — TMDB API Integration
+
+The TMDB API integration goes beyond what was covered in module lectures. See `server/src/controllers/movieController.js` for full details and the `*** EXTRA CREDIT ***` comment block.
+
+### References
+
+- Express.js documentation — https://expressjs.com/
+- Mongoose documentation — https://mongoosejs.com/docs/
+- TMDB API v3 reference — https://developer.themoviedb.org/reference/intro/getting-started
+- bcryptjs — https://www.npmjs.com/package/bcryptjs
+- jsonwebtoken — https://www.npmjs.com/package/jsonwebtoken
+- express-session — https://www.npmjs.com/package/express-session
+- cookie-parser — https://www.npmjs.com/package/cookie-parser
+- MongoDB Atlas — https://www.mongodb.com/atlas
+
+---
+
 ## Project Status
 
-Backend complete. All 6 features built and tested. Frontend in progress.
+**Backend:** Complete — all 6 features implemented and tested.
+
+**Frontend:** In progress — pages and components being connected to the API.
+
+**Deployment:** In progress — MongoDB Atlas and Render hosting being configured.

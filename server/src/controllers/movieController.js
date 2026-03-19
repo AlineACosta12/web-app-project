@@ -1,6 +1,16 @@
 // MoodPlay — Movie Controller (TMDB Proxy Logic)
 // Byron Gift Ochieng Makasembo | 3062457
 // Handles all TMDB API calls server-side. The API key never reaches the frontend.
+//
+// *** EXTRA CREDIT ***
+// The TMDB API integration is functionality researched and implemented beyond the
+// scope of the module lectures. It involves:
+//   - Integrating a third-party REST API (The Movie Database — themoviedb.org)
+//   - Proxying all external API calls through the backend to protect the API key
+//   - Mapping custom mood categories to TMDB genre IDs (mood-to-genre system)
+//   - Filtering now-playing results by region (region=IE for Irish cinemas)
+//   - Implementing a randomisation algorithm for the Fortune Teller feature
+// Reference: https://developer.themoviedb.org/reference/intro/getting-started
 
 const axios = require('axios')
 
