@@ -216,3 +216,29 @@ main  ←  dev  ←  feature/byron-*
 **Frontend:** In progress — pages and components being connected to the API.
 
 **Deployment:** Live — https://moodplay-api.onrender.com — MongoDB Atlas (eu-west-1), Render (Frankfurt).
+
+---
+
+## Database
+
+The app uses MongoDB Atlas (cloud-hosted). A seed script is included at `server/seed.js` to populate the database with demo data. Run with `node seed.js` from the `server/` folder.
+
+Demo accounts created by the seed:
+- `demo@moodplay.com` / `Demo1234`
+- `testuser@moodplay.com` / `Test1234`
+
+---
+
+## References
+
+- Express.js — https://expressjs.com/
+- Mongoose — https://mongoosejs.com/docs/
+- TMDB API v3 — https://developer.themoviedb.org/
+- bcryptjs — https://www.npmjs.com/package/bcryptjs
+- jsonwebtoken — https://www.npmjs.com/package/jsonwebtoken
+- express-session — https://www.npmjs.com/package/express-session
+- cookie-parser — https://www.npmjs.com/package/cookie-parser
+- MongoDB Atlas — https://www.mongodb.com/docs/atlas/
+- React — https://react.dev/
+- Vite — https://vitejs.dev/
+- Render — https://render.com/docs
