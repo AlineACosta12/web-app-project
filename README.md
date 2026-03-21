@@ -209,39 +209,6 @@ main  ←  dev  ←  feature/byron-*
 
 ---
 
-## Assignment 2 — Server-Side Components
-
-### Division of Labour
-
-Byron Gift Ochieng Makasembo — entire backend: Express server, all route logic, auth system (JWT + sessions + cookies), TMDB API integration, Mongoose models, middleware, git workflow, deployment.
-
-Aline Andrade Costa — frontend: React pages, component structure, Axios integration, UI.
-
-Sergio Alves da Silva — frontend support: CSS, styling, design.
-
-### Changes from Assignment 1 plan
-
-No changes to scope. All 6 features planned in Assignment 1 have been implemented as specified.
-
-Session/cookie handling was added beyond the original plan to satisfy Assignment 2 requirements: the JWT is now stored in an httpOnly cookie and user state is maintained in a server-side express-session.
-
-### Extra Credit — TMDB API Integration
-
-The TMDB API integration goes beyond what was covered in module lectures. See `server/src/controllers/movieController.js` for full details and the `*** EXTRA CREDIT ***` comment block.
-
-### References
-
-- Express.js documentation — https://expressjs.com/
-- Mongoose documentation — https://mongoosejs.com/docs/
-- TMDB API v3 reference — https://developer.themoviedb.org/reference/intro/getting-started
-- bcryptjs — https://www.npmjs.com/package/bcryptjs
-- jsonwebtoken — https://www.npmjs.com/package/jsonwebtoken
-- express-session — https://www.npmjs.com/package/express-session
-- cookie-parser — https://www.npmjs.com/package/cookie-parser
-- MongoDB Atlas — https://www.mongodb.com/atlas
-
----
-
 ## Project Status
 
 **Backend:** Complete — all 6 features implemented and tested.
