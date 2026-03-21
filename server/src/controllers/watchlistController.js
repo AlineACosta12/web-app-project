@@ -66,7 +66,7 @@ const updateWatchlistStatus = async (req, res) => {
     const item = await WatchlistItem.findOneAndUpdate(
       { userId: req.userId, tmdbId: Number(tmdbId) },
       { status },
-      { new: true } // return the updated document
+      { returnDocument: 'after' } // return the updated document
     )
 
     if (!item) {
