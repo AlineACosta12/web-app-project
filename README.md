@@ -211,22 +211,6 @@ main  ←  dev  ←  feature/byron-*
 
 ## Assignment 2 — Server-Side Components
 
-### What was implemented this iteration
-
-| Area | Detail | Author |
-|---|---|---|
-| Express server scaffold | CORS, dotenv, MongoDB connect, health check | Byron |
-| JWT authentication | Register, login, logout, `/api/auth/me` | Byron |
-| httpOnly cookie auth | JWT stored in httpOnly cookie on login/register | Byron |
-| Server-side sessions | express-session stores userId + username after login | Byron |
-| Auth middleware | Accepts JWT from Authorization header or cookie | Byron |
-| TMDB movie proxy | All 5 movie endpoints — mood, random, nowplaying, search, detail | Byron |
-| Watchlist CRUD | GET / POST / PUT / DELETE — all userId-isolated | Byron |
-| Ratings CRUD | GET / POST / DELETE — all userId-isolated | Byron |
-| MongoDB schemas | User, WatchlistItem, Rating with unique indexes | Byron |
-| Server-side validation | All routes validate inputs and return `{ message }` on error | Byron |
-| Frontend (React) | All 6 pages and components connected to the API | Aline / Sergio |
-
 ### Division of Labour
 
 Byron Gift Ochieng Makasembo — entire backend: Express server, all route logic, auth system (JWT + sessions + cookies), TMDB API integration, Mongoose models, middleware, git workflow, deployment.
