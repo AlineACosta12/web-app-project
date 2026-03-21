@@ -10,9 +10,9 @@ Built as part of the Web Technologies module at Griffith College Cork.
 
 | Name | Student No. | Role |
 |---|---|---|
-| Byron Gift Ochieng Makasembo | 3062457 | Backend, Auth, TMDB, Git, Deployment |
-| Aline Andrade Costa | 3144929 | Frontend, React, UI |
-| Sergio Alves da Silva | 3139115 | Frontend support, CSS, Design |
+| Byron Gift Ochieng Makasembo |
+| Aline Andrade Costa 
+| Sergio Alves da Silva 
 
 Module: Web Technologies — Year 3 | Griffith College Cork | Lecturer: Martin Dow
 
