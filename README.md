@@ -215,4 +215,4 @@ main  ←  dev  ←  feature/byron-*
 
 **Frontend:** In progress — pages and components being connected to the API.
 
-**Deployment:** In progress — MongoDB Atlas and Render hosting being configured.
+**Deployment:** Live — https://moodplay-api.onrender.com — MongoDB Atlas (eu-west-1), Render (Frankfurt).
