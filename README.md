@@ -64,7 +64,8 @@ web-app-project/
 │       ├── middleware/       # JWT auth middleware
 │       ├── models/          # Mongoose schemas
 │       ├── routes/          # Express routers
-│       └── app.js
+│       ├── app.js           # Express setup, middleware, route mounting
+│       └── index.js         # MongoDB connection, server start
 ├── docs/                    # Wireframes and project documentation
 └── README.md
 ```
@@ -175,23 +176,29 @@ Protected routes accept the JWT via either:
    - Backend API + auth + security ✅
    - Frontend pages and components 🔨 in progress
 8. **Testing**
-   - API endpoint tests
-   - Form validation
-   - Responsive and browser checks
+   - Backend endpoints tested end-to-end ✅
+   - Seed script included (`server/seed.js`) for demo data ✅
+   - Frontend integration testing 🔨 in progress
 9. **Deploy**
-   - Hosting + SSL
-   - Live demo link
+   - Backend live at https://moodplay-api.onrender.com ✅
+   - MongoDB Atlas (eu-west-1 Ireland) ✅
 
 ---
 
 ## Testing
 
-Testing evidence will be stored in `/docs/testing/` and will include:
-- API endpoint tests (auth, movies, watchlist, ratings)
-- Form validation tests
-- Link and navigation tests
-- Responsive and cross-browser checks
-- User feedback notes
+All backend endpoints have been tested end-to-end using curl against both the local server and the live deployment. Tests covered: registration, login, session/cookie auth, all five TMDB movie routes, full watchlist CRUD, full ratings CRUD, and logout.
+
+A seed script is included at `server/seed.js` to populate demo data. Run it with:
+
+```bash
+cd server
+node seed.js
+```
+
+Demo accounts created by the seed:
+- `demo@moodplay.com` / `Demo1234`
+- `testuser@moodplay.com` / `Test1234`
 
 ---
 
