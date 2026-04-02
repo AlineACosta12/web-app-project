@@ -1,86 +1,200 @@
 // MoodPlay — Rating Controller
 // Byron Gift Ochieng Makasembo | 3062457
-// Handles submitting, fetching, and deleting movie ratings and reviews.
+// Handles creating, fetching, updating, and deleting movie ratings and reviews.
 // userId always comes from the verified JWT token — never from the request body.
 
-const Rating = require('../models/Rating')
+const Rating = require("../models/Rating");
+
+// GET /api/ratings
+// Returns all ratings for the logged-in user
+const getAllRatings = async (req, res) => {
+  try {
+    const ratings = await Rating.find({ userId: req.userId }).sort({
+      createdAt: -1,
+    });
+
+    res.json(ratings);
+  } catch (err) {
+    console.error("getAllRatings error:", err.message);
+    res.status(500).json({ message: "Failed to fetch ratings" });
+  }
+};
 
 // GET /api/ratings/:tmdbId
 // Returns the logged-in user's rating for a specific movie
 const getRating = async (req, res) => {
-  const { tmdbId } = req.params
+  const movieID = Number(req.params.tmdbId);
+
+  if (!Number.isInteger(movieID) || movieID <= 0) {
+    return res.status(400).json({ message: "Invalid movie ID" });
+  }
 
   try {
-    // Filter by both userId and tmdbId — users only see their own ratings
-    const rating = await Rating.findOne({ userId: req.userId, tmdbId: Number(tmdbId) })
+    const rating = await Rating.findOne({
+      userId: req.userId,
+      tmdbId: movieID,
+    });
 
     if (!rating) {
-      return res.status(404).json({ message: 'No rating found for this movie' })
+      return res
+        .status(404)
+        .json({ message: "No rating found for this movie" });
     }
 
-    res.json(rating)
+    res.json(rating);
   } catch (err) {
-    console.error('getRating error:', err.message)
-    res.status(500).json({ message: err.message })
+    console.error("getRating error:", err.message);
+    res.status(500).json({ message: "Failed to fetch rating" });
   }
-}
+};
 
 // POST /api/ratings/:tmdbId
-// Submits a rating and optional review for a movie
+// Creates a new rating for a movie
 // Body: { title, score, review }
-const submitRating = async (req, res) => {
-  const { tmdbId } = req.params
-  const { title, score, review } = req.body
+const createRating = async (req, res) => {
+  const movieID = Number(req.params.tmdbId);
+  const { title, score, review } = req.body;
 
-  // Validate required fields
-  if (!title) {
-    return res.status(400).json({ message: 'title is required' })
+  if (!Number.isInteger(movieID) || movieID <= 0) {
+    return res.status(400).json({ message: "Invalid movie ID" });
   }
-  if (!score || score < 1 || score > 5) {
-    return res.status(400).json({ message: 'score must be a number between 1 and 5' })
+
+  if (!title || title.trim() === "") {
+    return res.status(400).json({ message: "Title is required" });
+  }
+
+  const numericScore = Number(score);
+  if (!Number.isInteger(numericScore) || numericScore < 1 || numericScore > 5) {
+    return res.status(400).json({
+      message: "Score must be a number between 1 and 5",
+    });
   }
 
   try {
+    const existingRating = await Rating.findOne({
+      userId: req.userId,
+      tmdbId: movieID,
+    });
+
+    if (existingRating) {
+      return res.status(400).json({
+        message: "You have already rated this movie",
+      });
+    }
+
     const rating = await Rating.create({
       userId: req.userId,
-      tmdbId: Number(tmdbId),
-      title,
-      score: Number(score),
-      review: review || '',
-    })
+      tmdbId: movieID,
+      title: title.trim(),
+      score: numericScore,
+      review: review ? review.trim() : "",
+    });
 
-    res.status(201).json(rating)
+    res.status(201).json(rating);
   } catch (err) {
-    // Duplicate key — user already rated this movie
-    if (err.code === 11000) {
-      return res.status(400).json({ message: 'You have already rated this movie' })
-    }
-    console.error('submitRating error:', err.message)
-    res.status(500).json({ message: err.message })
+    console.error("createRating error:", err.message);
+    res.status(500).json({ message: "Failed to save rating" });
   }
-}
+};
+
+// PUT /api/ratings/:tmdbId
+// Updates an existing rating for a movie
+// Body: { title, score, review }
+const updateRating = async (req, res) => {
+  const movieID = Number(req.params.tmdbId);
+  const { title, score, review } = req.body;
+
+  if (!Number.isInteger(movieID) || movieID <= 0) {
+    return res.status(400).json({ message: "Invalid movie ID" });
+  }
+
+  const updateData = {};
+
+  if (title !== undefined) {
+    if (!title.trim()) {
+      return res.status(400).json({ message: "Title cannot be empty" });
+    }
+    updateData.title = title.trim();
+  }
+
+  if (score !== undefined) {
+    const numericScore = Number(score);
+    if (
+      !Number.isInteger(numericScore) ||
+      numericScore < 1 ||
+      numericScore > 5
+    ) {
+      return res.status(400).json({
+        message: "Score must be a number between 1 and 5",
+      });
+    }
+    updateData.score = numericScore;
+  }
+
+  if (review !== undefined) {
+    updateData.review = review.trim();
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return res.status(400).json({
+      message: "At least one field must be provided to update",
+    });
+  }
+
+  try {
+    const rating = await Rating.findOneAndUpdate(
+      {
+        userId: req.userId,
+        tmdbId: movieID,
+      },
+      updateData,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!rating) {
+      return res.status(404).json({ message: "Rating not found" });
+    }
+
+    res.json(rating);
+  } catch (err) {
+    console.error("updateRating error:", err.message);
+    res.status(500).json({ message: "Failed to update rating" });
+  }
+};
 
 // DELETE /api/ratings/:tmdbId
 // Removes the logged-in user's rating for a movie
 const deleteRating = async (req, res) => {
-  const { tmdbId } = req.params
+  const movieID = Number(req.params.tmdbId);
+
+  if (!Number.isInteger(movieID) || movieID <= 0) {
+    return res.status(400).json({ message: "Invalid movie ID" });
+  }
 
   try {
-    // userId filter ensures users can only delete their own ratings
     const rating = await Rating.findOneAndDelete({
       userId: req.userId,
-      tmdbId: Number(tmdbId),
-    })
+      tmdbId: movieID,
+    });
 
     if (!rating) {
-      return res.status(404).json({ message: 'Rating not found' })
+      return res.status(404).json({ message: "Rating not found" });
     }
 
-    res.json({ message: 'Rating deleted' })
+    res.json({ message: "Rating deleted" });
   } catch (err) {
-    console.error('deleteRating error:', err.message)
-    res.status(500).json({ message: err.message })
+    console.error("deleteRating error:", err.message);
+    res.status(500).json({ message: "Failed to delete rating" });
   }
-}
+};
 
-module.exports = { getRating, submitRating, deleteRating }
+module.exports = {
+  getAllRatings,
+  getRating,
+  createRating,
+  updateRating,
+  deleteRating,
+};
