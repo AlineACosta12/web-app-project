@@ -46,6 +46,10 @@ app.use(
   }),
 );
 
+app.get("/api", (req, res) => {
+  res.json({ message: "MoodPlay API base route is working" });
+});
+
 // Root route
 app.get("/", (req, res) => {
   res.send("MoodPlay API is running");
