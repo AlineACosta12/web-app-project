@@ -1,18 +1,17 @@
-// MoodPlay — Auth Controller
-// Byron Gift Ochieng Makasembo | 3062457
-// Handles user registration, login, logout, and current-user retrieval.
-// Public routes — no token required for register/login.
-// On login/register: issues a JWT, stores it as an httpOnly cookie, and saves user
-// info in the server-side session so protected routes can identify the caller.
+// MoodPlay — Authentication Controller
+// Handles user registration, login, logout, and retrieval of the current user.
+// Public routes: register and login.
+// When a user logs in or registers, the controller creates a JWT, stores it
+// in an httpOnly cookie, and saves basic user information in the session.
 
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// Helper — sets the JWT as an httpOnly cookie and stores user state in the session.
-// Called by both register and login to avoid code duplication.
+// Helper function to create the login session after register/login
+// It stores the JWT in an httpOnly cookie and saves basic user data in the session.
 const issueSession = (req, res, user, token) => {
-  // Store the JWT in an httpOnly cookie so the browser sends it automatically.
-  // httpOnly prevents client-side JS from reading the token (XSS protection).
+  // Store the JWT in an httpOnly cookie.
+  // This helps protect the token from client-side JavaScript access.
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // HTTPS only in production
@@ -20,14 +19,14 @@ const issueSession = (req, res, user, token) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
   });
 
-  // Store key user info in the server-side session.
-  // This lets protected routes confirm identity without re-verifying the JWT on every call.
+  // Save user details in the server-side session
   req.session.userId = user._id.toString();
   req.session.username = user.username;
 };
 
 // POST /api/auth/register
-// Creates a new user account. Password is hashed by the User model pre-save hook.
+// Creates a new user account.
+// The password is hashed automatically by the User model before saving.
 const register = async (req, res) => {
   try {
     let { username, email, password } = req.body;
@@ -42,6 +41,7 @@ const register = async (req, res) => {
     username = username.trim();
     email = email.toLowerCase().trim();
 
+    // Validate email format
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
       return res
@@ -49,19 +49,21 @@ const register = async (req, res) => {
         .json({ message: "Please enter a valid email address" });
     }
 
+    // Validate username length
     if (username.length < 3) {
       return res
         .status(400)
         .json({ message: "Username must be at least 3 characters long" });
     }
 
+    // Validate password length
     if (password.length < 6) {
       return res
         .status(400)
         .json({ message: "Password must be at least 6 characters long" });
     }
 
-    // Check that neither the email nor username is already taken
+    // Check if the username or email is already in use
     const existing = await User.findOne({ $or: [{ email }, { username }] });
     if (existing) {
       return res
@@ -69,15 +71,15 @@ const register = async (req, res) => {
         .json({ message: "Username or email already in use" });
     }
 
-    // Create the user — password hashing happens in the model pre-save hook
+    // Create the new user
     const user = await User.create({ username, email, password });
 
-    // Sign a JWT with the user's MongoDB ID
+    // Create a JWT containing the user's ID
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    // Set cookie and session
+    // Store login information in the cookie and session
     issueSession(req, res, user, token);
 
     res.status(201).json({
@@ -91,6 +93,7 @@ const register = async (req, res) => {
       },
     });
   } catch (err) {
+    // Handle duplicate key errors from MongoDB
     if (err.code === 11000) {
       return res
         .status(400)
@@ -101,12 +104,12 @@ const register = async (req, res) => {
 };
 
 // POST /api/auth/login
-// Validates credentials and returns a JWT if correct.
+// Checks the user's credentials and logs them in if correct.
 const login = async (req, res) => {
   try {
     let { email, password } = req.body;
 
-    // Validate required fields
+    // Check that both email and password were provided
     if (!email || !password) {
       return res
         .status(400)
@@ -115,14 +118,14 @@ const login = async (req, res) => {
 
     email = email.toLowerCase().trim();
 
-    // Look up the user by email
+    // Find the user by email and include the password for verification
     const user = await User.findOne({ email }).select("+password"); // Include password hash for verification
     if (!user) {
       // Use a generic message to avoid revealing whether the email exists
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Compare the submitted password against the stored hash
+    // Compare the entered password with the stored hashed password
     const match = await user.comparePassword(password);
     if (!match) {
       return res.status(400).json({ message: "Invalid credentials" });
@@ -151,7 +154,7 @@ const login = async (req, res) => {
 };
 
 // POST /api/auth/logout
-// Clears the auth cookie and destroys the server-side session.
+// Logs the user out by clearing the auth cookie and destroying the session.
 const logout = (req, res) => {
   // Remove the JWT cookie from the browser
   res.clearCookie("token", {
@@ -170,8 +173,8 @@ const logout = (req, res) => {
 };
 
 // GET /api/auth/me
-// Returns the currently logged-in user's profile (from the session).
-// Used by the frontend to restore auth state on page load.
+// Returns the currently logged-in user's profile.
+// The user ID should already be available from the authentication middleware.
 const getMe = async (req, res) => {
   try {
     // req.userId is set by the protect middleware

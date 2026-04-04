@@ -1,10 +1,9 @@
-// MoodPlay — JWT Authentication Middleware
-// Byron Gift Ochieng Makasembo | 3062457
+// MoodPlay — Authentication Middleware
 // Protects routes that require a logged-in user.
-// Checks for a JWT in two places (in order):
-//   1. The Authorization header (Bearer <token>) — used by Axios on the frontend
-//   2. The httpOnly 'token' cookie — set by the server on login
-// If either is valid, req.userId is attached and the request continues.
+// It checks for a JWT in two places:
+// 1. The Authorization header (Bearer token)
+// 2. The httpOnly "token" cookie
+// If a valid token is found, the user ID is attached to the request.
 
 const jwt = require("jsonwebtoken");
 

@@ -1,15 +1,14 @@
 // MoodPlay — Watchlist Controller
-// Byron Gift Ochieng Makasembo | 3062457
-// Full CRUD for a user's personal watchlist.
-// userId always comes from the verified JWT token — never from the request body.
+// Handles creating, retrieving, updating, and deleting items in a user's watchlist.
+// The userId is taken from the authenticated user, not from the request body.
 
 const WatchlistItem = require("../models/WatchlistItem");
 
 // GET /api/watchlist
-// Returns all watchlist items belonging to the logged-in user
+// Returns all watchlist items for the logged-in user
 const getWatchlist = async (req, res) => {
   try {
-    // Filter strictly by the userId from the token — users can only see their own list
+    // Only return items that belong to the authenticated user
     const items = await WatchlistItem.find({ userId: req.userId }).sort({
       createdAt: -1,
     });
@@ -23,7 +22,7 @@ const getWatchlist = async (req, res) => {
 
 // POST /api/watchlist/:tmdbId
 // Adds a movie to the user's watchlist
-// Body: { title, poster } — these are stored locally so the watchlist page doesn't need extra TMDB calls
+// Body: { title, poster }
 const addToWatchlist = async (req, res) => {
   const movieID = Number(req.params.tmdbId);
   const { title, poster } = req.body;
@@ -32,7 +31,7 @@ const addToWatchlist = async (req, res) => {
     return res.status(400).json({ message: "Invalid movie ID" });
   }
 
-  // title is required — we need something to display on the watchlist page
+  // A title is required so the movie can be displayed in the watchlist
   if (!title || title.trim() === "") {
     return res.status(400).json({ message: "Title is required" });
   }
@@ -43,23 +42,25 @@ const addToWatchlist = async (req, res) => {
       tmdbId: movieID,
       title: title.trim(),
       poster: poster || "",
-      status: "plan", // default status when first added
+      status: "plan", // Default status when the movie is first added
     });
+
     res.status(201).json(item);
   } catch (err) {
-    // Mongoose duplicate key error — movie already on this user's watchlist
+    // Duplicate key error: the movie is already in the user's watchlist
     if (err.code === 11000) {
       return res
         .status(400)
         .json({ message: "Movie already in your watchlist" });
     }
+
     console.error("addToWatchlist error:", err.message);
     res.status(500).json({ message: "Failed to add movie to watchlist" });
   }
 };
 
 // PUT /api/watchlist/:tmdbId
-// Updates the watch status of a watchlist entry (plan / watching / watched)
+// Updates the watch status of a movie in the watchlist
 // Body: { status }
 const updateWatchlistStatus = async (req, res) => {
   const movieID = Number(req.params.tmdbId);
@@ -69,7 +70,7 @@ const updateWatchlistStatus = async (req, res) => {
     return res.status(400).json({ message: "Invalid movie ID" });
   }
 
-  // Validate the status value before hitting the database
+  // Validate the allowed status values
   if (!status || !["plan", "watching", "watched"].includes(status)) {
     return res
       .status(400)
@@ -77,11 +78,11 @@ const updateWatchlistStatus = async (req, res) => {
   }
 
   try {
-    // userId filter ensures a user can only update their own entries
+    // Only update items that belong to the authenticated user
     const item = await WatchlistItem.findOneAndUpdate(
       { userId: req.userId, tmdbId: movieID },
       { status },
-      { new: true }, // return the updated document
+      { new: true },
     );
 
     if (!item) {
@@ -105,7 +106,7 @@ const removeFromWatchlist = async (req, res) => {
   }
 
   try {
-    // userId filter ensures a user can only delete their own entries
+    // Only delete items that belong to the authenticated user
     const item = await WatchlistItem.findOneAndDelete({
       userId: req.userId,
       tmdbId: movieID,
@@ -115,7 +116,7 @@ const removeFromWatchlist = async (req, res) => {
       return res.status(404).json({ message: "Watchlist item not found" });
     }
 
-    res.json({ message: "Removed from watchlist" });
+    res.json({ message: "Removed from watchlist successfully" });
   } catch (err) {
     console.error("removeFromWatchlist error:", err.message);
     res.status(500).json({ message: "Failed to remove movie from watchlist" });

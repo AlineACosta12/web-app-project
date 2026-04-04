@@ -1,7 +1,7 @@
-// MoodPlay — Movie Controller (TMDB Proxy Logic)
-// Byron Gift Ochieng Makasembo | 3062457
-// Handles all TMDB API calls server-side. The API key never reaches the frontend.
-//
+// MoodPlay — Movie Controller
+// Handles all movie-related requests by calling the TMDB API from the backend.
+// This keeps the TMDB API key hidden from the frontend.
+
 // *** EXTRA CREDIT ***
 // The TMDB API integration is functionality researched and implemented beyond the
 // scope of the module lectures. It involves:
@@ -14,12 +14,12 @@
 
 const axios = require("axios");
 
-// Guard against missing API key
+// Check that the TMDB API key exists before making requests
 if (!process.env.TMDB_API_KEY) {
   throw new Error("TMDB API key is missing in environment variables");
 }
 
-// Build a pre-configured axios instance for TMDB using env vars
+// Create a reusable Axios instance for TMDB requests
 const tmdb = axios.create({
   baseURL: process.env.TMDB_BASE_URL || "https://api.themoviedb.org/3",
   timeout: 5000,
@@ -28,7 +28,7 @@ const tmdb = axios.create({
   },
 });
 
-// Maps mood names (from the route param) to TMDB genre ID strings
+// Maps mood names from the route parameter to TMDB genre IDs
 const MOOD_GENRES = {
   happy: "35,16,10751", // Comedy, Animation, Family
   sad: "18", // Drama
@@ -39,7 +39,7 @@ const MOOD_GENRES = {
 };
 
 // GET /api/movies/mood/:mood
-// Discovers movies matching the mood via TMDB genre filter
+// Returns movies that match the selected mood
 const getMoviesByMood = async (req, res) => {
   const { mood } = req.params;
   const genres = MOOD_GENRES[mood.toLowerCase()];
@@ -49,7 +49,7 @@ const getMoviesByMood = async (req, res) => {
   if (!genres) {
     return res.status(400).json({ message: `Unknown mood: ${mood}` });
   }
-
+  // Reject invalid page values
   if (!Number.isInteger(page) || page <= 0) {
     return res.status(400).json({ message: "Invalid page number" });
   }
@@ -76,7 +76,7 @@ const getMoviesByMood = async (req, res) => {
 };
 
 // GET /api/movies/random
-// Fetches a page of popular movies and picks one at random (Fortune Teller)
+// Returns one random popular movie for the Fortune Teller feature
 const getRandomMovie = async (req, res) => {
   try {
     // Get a random page between 1 and 10 for variety
@@ -86,7 +86,9 @@ const getRandomMovie = async (req, res) => {
       params: { page: randomPage, language: "en-IE" },
     });
 
-    const movies = response.data.results.filter((movie) => movie.poster_path);
+    const movies = (response.data.results || []).filter(
+      (movie) => movie.poster_path,
+    );
 
     if (!movies || !movies.length) {
       return res.status(404).json({ message: "No movies found" });
@@ -105,7 +107,7 @@ const getRandomMovie = async (req, res) => {
 };
 
 // GET /api/movies/nowplaying
-// Returns movies currently in cinemas (Big Screen feature)
+// Returns movies currently showing in cinemas in Ireland
 const getNowPlaying = async (req, res) => {
   const page = Number(req.query.page) || 1;
 
@@ -129,7 +131,7 @@ const getNowPlaying = async (req, res) => {
 };
 
 // GET /api/movies/search?q=&page=
-// Searches TMDB by movie title using the query string param
+// Searches TMDB for movies by title
 const searchMovies = async (req, res) => {
   const { q } = req.query;
   const page = Number(req.query.page) || 1;
@@ -164,7 +166,7 @@ const searchMovies = async (req, res) => {
 };
 
 // GET /api/movies/:tmdbId
-// Fetches full detail for a single movie by its TMDB ID
+// Returns full details for a movie using its TMDB ID
 const getMovieById = async (req, res) => {
   const { tmdbId } = req.params;
   const movieID = Number(tmdbId);

@@ -1,9 +1,14 @@
+// MoodPlay — Profile Controller
+// Handles profile-related actions for the logged-in user,
+// including viewing profile details, updating account information,
+// changing password, and deleting the account.
+
 const User = require("../models/User");
 const WatchlistItem = require("../models/WatchlistItem");
 const Rating = require("../models/Rating");
 
 // GET /api/profile
-// Returns the logged-in user's profile
+// Returns the profile of the currently logged-in user
 const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password");
@@ -27,7 +32,7 @@ const getProfile = async (req, res) => {
 };
 
 // PUT /api/profile
-// Updates username, email, and avatar
+// Updates the logged-in user's username, email, and avatar
 const updateProfile = async (req, res) => {
   try {
     let { username, email, avatar } = req.body;
@@ -101,7 +106,7 @@ const updateProfile = async (req, res) => {
 };
 
 // PUT /api/profile/password
-// Changes the logged-in user's password
+// Changes the password of the currently logged-in user
 const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -141,7 +146,7 @@ const changePassword = async (req, res) => {
 };
 
 // DELETE /api/profile
-// Deletes the logged-in user's account and related user data
+// Deletes the logged-in user's account and related data
 const deleteProfile = async (req, res) => {
   try {
     const userId = req.userId;

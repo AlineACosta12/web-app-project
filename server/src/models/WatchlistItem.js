@@ -1,8 +1,7 @@
-// MoodPlay — WatchlistItem Model
-// Byron Gift Ochieng Makasembo | 3062457
-// Each document represents one movie on one user's watchlist.
-// A user cannot add the same movie twice — enforced by the compound unique index.
-// Status tracks where the user is with the movie: plan / watching / watched.
+// MoodPlay — Watchlist Item Model
+// Represents a movie saved in a user's watchlist.
+// A user cannot add the same movie more than once.
+// The status shows whether the movie is planned, being watched, or already watched.
 
 const mongoose = require("mongoose");
 

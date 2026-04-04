@@ -1,8 +1,7 @@
 // MoodPlay — Rating Model
-// Byron Gift Ochieng Makasembo | 3062457
-// Each document represents one user's rating and optional review for a movie.
-// A user can only rate the same movie once — enforced by the compound unique index.
-// Score is 1–5 stars. Review is optional, max 500 characters.
+// Represents a user's rating and optional review for a movie.
+// Each user can rate the same movie only once.
+// The score must be a whole number from 1 to 5.
 
 const mongoose = require("mongoose");
 

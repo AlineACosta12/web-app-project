@@ -1,7 +1,6 @@
 // MoodPlay — Rating Controller
-// Byron Gift Ochieng Makasembo | 3062457
-// Handles creating, fetching, updating, and deleting movie ratings and reviews.
-// userId always comes from the verified JWT token — never from the request body.
+// Handles creating, retrieving, updating, and deleting movie ratings and reviews.
+// The userId is taken from the authenticated user, not from the request body.
 
 const Rating = require("../models/Rating");
 
@@ -87,7 +86,7 @@ const createRating = async (req, res) => {
       tmdbId: movieID,
       title: title.trim(),
       score: numericScore,
-      review: review ? review.trim() : "",
+      review: review ? String(review).trim() : "",
     });
 
     res.status(201).json(rating);
@@ -132,7 +131,7 @@ const updateRating = async (req, res) => {
   }
 
   if (review !== undefined) {
-    updateData.review = review.trim();
+    updateData.review = String(review).trim();
   }
 
   if (Object.keys(updateData).length === 0) {

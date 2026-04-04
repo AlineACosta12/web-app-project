@@ -1,8 +1,6 @@
 // MoodPlay — Watchlist Routes
-// Byron Gift Ochieng Makasembo | 3062457
-// Full CRUD for a user's personal watchlist.
-// All routes are protected — valid JWT required.
-// userId is always taken from the verified token, never from the request body.
+// Defines the routes for creating, retrieving, updating,
+// and deleting items in the logged-in user's watchlist.
 
 const express = require("express");
 const protect = require("../middleware/auth");
@@ -15,23 +13,23 @@ const {
 
 const router = express.Router();
 
-// Apply JWT protection to all routes in this file
+// Apply authentication middleware to all watchlist routes
 router.use(protect);
 
 // GET /api/watchlist
-// Returns all watchlist items belonging to the logged-in user
+// Returns all watchlist items for the current user
 router.get("/", getWatchlist);
 
 // POST /api/watchlist/:tmdbId
-// Adds a movie to the user's watchlist — body: { title, poster }
+// Adds a movie to the current user's watchlist
 router.post("/:tmdbId", addToWatchlist);
 
 // PUT /api/watchlist/:tmdbId
-// Updates the status of a watchlist entry — body: { status }
+// Updates the watch status of a movie in the watchlist
 router.put("/:tmdbId", updateWatchlistStatus);
 
 // DELETE /api/watchlist/:tmdbId
-// Removes a movie from the user's watchlist
+// Removes a movie from the current user's watchlist
 router.delete("/:tmdbId", removeFromWatchlist);
 
 module.exports = router;
