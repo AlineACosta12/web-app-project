@@ -8,65 +8,186 @@ Built as part of the Web Technologies module at Griffith College Cork.
 
 ## Team
 
-
-
-- Byron Gift Ochieng Makasembo 
-- Aline Andrade Costa 
-- Sergio Alves da Silva 
+- Aline Andrade Costa
+- Byron Gift Ochieng Makasembo
+- Sergio Alves da Silva
 
 Module: Web Technologies — Year 3 | Griffith College Cork | Lecturer: Martin Dow
 
 ---
 
-## What It Does
+## Project Overview
 
-Users pick a mood from six options (Happy, Sad, Romantic, Motivated, Bored, Mind-blown) and get a curated list of movies via the TMDB API. Additional features include a Fortune Teller (random movie pick), Big Screen (now playing in cinemas), a personal watchlist with status tracking, and a star rating + review system.
+MoodPlay helps users decide what to watch based on how they feel. Instead of browsing endlessly, users can select a mood and receive movie recommendations through the TMDB API.
 
----
+For this server-side iteration, the project focuses on:
 
-## Tech Stack
+- user management
+- server-side CRUD functionality
+- server-side validation
+- session and cookie handling
+- database integration
+- online deployment
 
-**Frontend:** React 18, Vite, React Router v6, Axios
-
-**Backend:** Node.js 20, Express 4, Mongoose 8, MongoDB 7
-
-**Auth:** bcryptjs (10 rounds), JSON Web Tokens (7-day expiry), express-session, cookie-parser
-
-**External API:** TMDB API v3 — all calls are proxied through the backend, the key never reaches the client
+This backend is deployed online and connected to MongoDB Atlas.
 
 ---
 
 ## Features
 
-| # | Feature | Description |
-|---|---|---|
-| F1 | Mood Browsing | Pick a mood, get a genre-matched movie list |
-| F2 | Fortune Teller | Random movie recommendation |
-| F3 | Big Screen | Movies currently in cinemas |
-| F4 | Auth | Register, login, JWT-protected sessions |
-| F5 | Watchlist | Add movies, track status (Plan / Watching / Watched) |
-| F6 | Ratings | Rate movies 1–5 stars with an optional written review |
+| #   | Feature        | Description                                           |
+| --- | -------------- | ----------------------------------------------------- |
+| F1  | Mood Browsing  | Pick a mood, get a genre-matched movie list           |
+| F2  | Fortune Teller | Random movie recommendation                           |
+| F3  | Big Screen     | Movies currently in cinemas                           |
+| F4  | Auth           | Register, login, JWT-protected sessions               |
+| F5  | Watchlist      | Add movies, track status (Plan / Watching / Watched)  |
+| F6  | Ratings        | Rate movies 1–5 stars with an optional written review |
+
+---
+
+## Features Implemented in Assignment 2
+
+### 1. User Management
+
+- User registration
+- User login
+- User logout
+- Current logged-in user retrieval
+- Profile retrieval
+- Profile update
+- Password change
+- Account deletion
+
+### 2. Movie Features
+
+- Browse movies by mood
+- Random movie recommendation ("Fortune Teller")
+- View movies currently playing in cinemas ("Big Screen")
+- Search movies by title
+- Get full movie details by TMDB ID
+
+### 3. Watchlist CRUD
+
+- Add movie to watchlist
+- View watchlist
+- Update watchlist status
+- Remove movie from watchlist
+
+### 4. Ratings CRUD
+
+- Create rating and review
+- View all user ratings
+- View rating for a specific movie
+- Update rating
+- Delete rating
+
+### 5. Validation
+
+- Required field validation
+- Email format validation
+- Password length validation
+- Username length validation
+- Rating score validation
+- Page number and TMDB ID validation
+- Appropriate error messages returned from the server
+
+### 6. State Management
+
+- JWT authentication
+- httpOnly auth cookie
+- express-session support for server-side session state
+
+### 7. Deployment
+
+- Backend deployed online using Render
+- Database hosted on MongoDB Atlas
+
+---
+
+## Hosted Backend
+
+**Backend URL:**  
+`https://moodplay-myvq.onrender.com`
+
+**API Base URL:**  
+`https://moodplay-myvq.onrender.com/api`
+
+### Working Test Routes
+
+- `/`
+- `/api`
+- `/api/health`
+- `/api/movies/random`
+- `/api/movies/nowplaying`
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- React 18
+- Vite
+- React Router v6
+- Axios
+
+### Backend
+
+- Node.js
+- Express
+- Mongoose
+- MongoDB Atlas
+
+### Authentication / State
+
+- bcryptjs
+- jsonwebtoken
+- express-session
+- cookie-parser
+
+### External API
+
+- TMDB API v3
 
 ---
 
 ## Project Structure
 
-```
+```text
 web-app-project/
-├── client/                  # React frontend (Vite)
+├── client/
 │   └── src/
-│       ├── components/      # Reusable UI components
-│       ├── pages/           # Route-level page components
+│       ├── components/
+│       ├── pages/
 │       └── main.jsx
-├── server/                  # Express backend
-│   └── src/
-│       ├── controllers/     # Route handler logic
-│       ├── middleware/       # JWT auth middleware
-│       ├── models/          # Mongoose schemas
-│       ├── routes/          # Express routers
-│       ├── app.js           # Express setup, middleware, route mounting
-│       └── index.js         # MongoDB connection, server start
-├── docs/                    # Wireframes and project documentation
+├── server/
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.js
+│   │   ├── controllers/
+│   │   │   ├── authController.js
+│   │   │   ├── movieController.js
+│   │   │   ├── profileController.js
+│   │   │   ├── ratingController.js
+│   │   │   └── watchlistController.js
+│   │   ├── middleware/
+│   │   │   └── auth.js
+│   │   ├── models/
+│   │   │   ├── Rating.js
+│   │   │   ├── User.js
+│   │   │   └── WatchlistItem.js
+│   │   ├── routes/
+│   │   │   ├── authRoutes.js
+│   │   │   ├── movieRoutes.js
+│   │   │   ├── profileRoutes.js
+│   │   │   ├── ratingRoutes.js
+│   │   │   └── watchlistRoutes.js
+│   │   └── index.js
+│   ├── .env
+│   ├── package.json
+│   ├── package-lock.json
+│   └── seed.js
 └── README.md
 ```
 
@@ -75,8 +196,10 @@ web-app-project/
 ## Setup & Installation
 
 ### Prerequisites
-- Node.js 20+
-- MongoDB 7 running locally (or a MongoDB Atlas URI)
+
+- Node.js
+- npm
+- MongoDB Atlas connection string
 - A TMDB API key — get one free at [themoviedb.org](https://www.themoviedb.org/settings/api)
 
 ### 1. Clone the repo
@@ -96,11 +219,13 @@ npm install
 Create a `.env` file in `/server` (use `.env.example` as a template):
 
 ```
-PORT=5001
-MONGODB_URI=mongodb://localhost:27017/moodplay
-JWT_SECRET=your_long_random_secret_here
-TMDB_API_KEY=your_tmdb_api_key_here
+PORT=5000
+MONGODB_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_jwt_secret
+TMDB_API_KEY=your_tmdb_api_key
 TMDB_BASE_URL=https://api.themoviedb.org/3
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
 ```
 
 Start the server:
@@ -117,122 +242,146 @@ npm install
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`. The backend runs on `http://localhost:5001`.
-
 ---
 
 ## API Endpoints
 
-### Auth (public)
-| Method | Endpoint | Body |
-|---|---|---|
-| POST | `/api/auth/register` | `{ username, email, password }` |
-| POST | `/api/auth/login` | `{ email, password }` |
-| POST | `/api/auth/logout` | Clears cookie and destroys session |
-| GET | `/api/auth/me` | Returns current user (JWT required) |
+### Authentication
 
-### Movies (public)
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/movies/mood/:mood` | Movies by mood |
-| GET | `/api/movies/random` | Random movie pick |
-| GET | `/api/movies/nowplaying` | Currently in cinemas |
-| GET | `/api/movies/search?q=` | Search by title |
-| GET | `/api/movies/:tmdbId` | Single movie detail |
+| Method | Endpoint             | Description                |
+| ------ | -------------------- | -------------------------- |
+| POST   | `/api/auth/register` | Register a new user        |
+| POST   | `/api/auth/login`    | Log in a user              |
+| POST   | `/api/auth/logout`   | Log out a user             |
+| GET    | `/api/auth/me`       | Get current logged-in user |
 
-Valid mood values: `happy` `sad` `romantic` `motivated` `bored` `mindblow`
+### Movies
 
-### Watchlist (JWT required)
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/watchlist` | Get user's watchlist |
-| POST | `/api/watchlist/:tmdbId` | Add a movie |
-| PUT | `/api/watchlist/:tmdbId` | Update status |
-| DELETE | `/api/watchlist/:tmdbId` | Remove a movie |
+| Method | Endpoint                 | Description                     |
+| ------ | ------------------------ | ------------------------------- |
+| GET    | `/api/movies/mood/:mood` | Get movies by mood              |
+| GET    | `/api/movies/random`     | Get a random movie              |
+| GET    | `/api/movies/nowplaying` | Get movies currently in cinemas |
+| GET    | `/api/movies/search?q=`  | Search movies by title          |
+| GET    | `/api/movies/:tmdbId`    | Get movie details by TMDB ID    |
 
-### Ratings (JWT required)
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/ratings/:tmdbId` | Get user's rating for a movie |
-| POST | `/api/ratings/:tmdbId` | Submit a rating and review |
-| DELETE | `/api/ratings/:tmdbId` | Delete a rating |
+**Valid mood values:** `happy`, `sad`, `romantic`, `motivated`, `bored`, `mindblow`
+
+### Profile
+
+| Method | Endpoint                | Description                |
+| ------ | ----------------------- | -------------------------- |
+| GET    | `/api/profile`          | Get logged-in user profile |
+| PUT    | `/api/profile`          | Update profile             |
+| PUT    | `/api/profile/password` | Change password            |
+| DELETE | `/api/profile`          | Delete account             |
+
+### Watchlist
+
+| Method | Endpoint                 | Description                 |
+| ------ | ------------------------ | --------------------------- |
+| GET    | `/api/watchlist`         | Get user's watchlist        |
+| POST   | `/api/watchlist/:tmdbId` | Add movie to watchlist      |
+| PUT    | `/api/watchlist/:tmdbId` | Update watchlist status     |
+| DELETE | `/api/watchlist/:tmdbId` | Remove movie from watchlist |
+
+### Ratings
+
+| Method | Endpoint               | Description                            |
+| ------ | ---------------------- | -------------------------------------- |
+| GET    | `/api/ratings`         | Get all ratings for the logged-in user |
+| GET    | `/api/ratings/:tmdbId` | Get rating for one movie               |
+| POST   | `/api/ratings/:tmdbId` | Create rating                          |
+| PUT    | `/api/ratings/:tmdbId` | Update rating                          |
+| DELETE | `/api/ratings/:tmdbId` | Delete rating                          |
+
+### Protected Routes
 
 Protected routes accept the JWT via either:
-- `Authorization: Bearer <token>` header (Axios default)
-- `token` httpOnly cookie (set automatically by the server on login)
+
+- `Authorization: Bearer <token>` header
+- `token` httpOnly cookie set automatically by the server on login
 
 ---
 
-## Project Workflow
+## Database
 
-1. **Idea & problem definition** ✅
-2. **Research + requirements** ✅
-3. **Project brief** ✅
-4. **Scope + MVP definition** ✅
-5. **Sitemap + user journeys** ✅
-6. **Wireframes** ✅ — see `/docs/wireframes.html`
-7. **Build**
-   - Database design ✅
-   - Backend API + auth + security ✅
-   - Frontend pages and components 🔨 in progress
-8. **Testing**
-   - Backend endpoints tested end-to-end ✅
-   - Seed script included (`server/seed.js`) for demo data ✅
-   - Frontend integration testing 🔨 in progress
-9. **Deploy**
-   - Backend live at https://moodplay-api.onrender.com ✅
-   - MongoDB Atlas (eu-west-1 Ireland) ✅
+The project uses **MongoDB Atlas** as the cloud-hosted database.
 
----
-
-## Testing
-
-All backend endpoints have been tested end-to-end using curl against both the local server and the live deployment. Tests covered: registration, login, session/cookie auth, all five TMDB movie routes, full watchlist CRUD, full ratings CRUD, and logout.
-
-A seed script is included at `server/seed.js` to populate demo data. Run it with:
+A seed script is included to generate demo data:
 
 ```bash
 cd server
 node seed.js
 ```
 
-Demo accounts created by the seed:
+### Demo Accounts
+
 - `demo@moodplay.com` / `Demo1234`
 - `testuser@moodplay.com` / `Test1234`
 
 ---
 
-## Git Workflow
+## Testing
 
-```
-main  ←  dev  ←  feature/byron-*
-                  feature/aline-*
-                  feature/sergio-*
-```
+The backend was tested locally and against the deployed Render backend.
 
-- `main` is protected — never push directly
-- All feature branches merge into `dev` first, then `dev` merges into `main`
-- Commit prefixes: `feat` / `fix` / `chore` / `docs` / `style`
+Testing included:
+
+- registration
+- login
+- logout
+- auth state
+- profile endpoints
+- movie endpoints
+- watchlist CRUD
+- ratings CRUD
+- validation and error handling
+- seed script and Atlas database checks
+
+---
+
+## Changes from Initial Plan
+
+The original project idea included both frontend and backend features.
+
+For this assignment iteration, the main focus was on implementing the **server-side components** required by the brief. The React frontend structure has been prepared, but the main completed work in this iteration is the backend API, authentication, database integration, validation, and deployment.
+
+---
+
+## Division of Labour
+
+Work was divided across the team for this iteration as follows:
+
+- **Byron Gift Ochieng Makasembo**  
+  Backend architecture, database seeding, MongoDB Atlas setup, deployment to Render, and API implementation support.
+
+- **Aline Andrade Costa**  
+  Project coordination, deployment verification, backend testing, database testing using mongosh, README and submission preparation, and frontend integration preparation.
+
+- **Sergio Alves da Silva**  
+  Backend code corrections, route/controller integration, project fixes, and support with implementation updates.
+
+---
+
+## File Authorship / Contribution Notes
+
+Main backend files were contributed to collaboratively, with stronger focus areas as follows:
+
+- **Byron:** deployment, seeding, backend structure
+- **Sergio:** backend corrections and integrations
+- **Aline:** testing, deployment verification, submission preparation, frontend integration preparation
 
 ---
 
 ## Project Status
 
-**Backend:** Complete — all 6 features implemented and tested.
+**Backend:** Complete — all main server-side features implemented and tested.
 
-**Frontend:** In progress — pages and components being connected to the API.
+**Frontend:** In progress — pages and components are being connected to the API.
 
-**Deployment:** Live — https://moodplay-api.onrender.com — MongoDB Atlas (eu-west-1), Render (Frankfurt).
-
----
-
-## Database
-
-The app uses MongoDB Atlas (cloud-hosted). A seed script is included at `server/seed.js` to populate the database with demo data. Run with `node seed.js` from the `server/` folder.
-
-Demo accounts created by the seed:
-- `demo@moodplay.com` / `Demo1234`
-- `testuser@moodplay.com` / `Test1234`
+**Deployment:** Live — `https://moodplay-myvq.onrender.com`  
+**Database:** MongoDB Atlas
 
 ---
 
@@ -240,12 +389,12 @@ Demo accounts created by the seed:
 
 - Express.js — https://expressjs.com/
 - Mongoose — https://mongoosejs.com/docs/
-- TMDB API v3 — https://developer.themoviedb.org/
+- MongoDB Atlas — https://www.mongodb.com/docs/atlas/
+- TMDB API — https://developer.themoviedb.org/
 - bcryptjs — https://www.npmjs.com/package/bcryptjs
 - jsonwebtoken — https://www.npmjs.com/package/jsonwebtoken
 - express-session — https://www.npmjs.com/package/express-session
 - cookie-parser — https://www.npmjs.com/package/cookie-parser
-- MongoDB Atlas — https://www.mongodb.com/docs/atlas/
+- Render — https://render.com/docs
 - React — https://react.dev/
 - Vite — https://vitejs.dev/
-- Render — https://render.com/docs
