@@ -46,6 +46,12 @@ app.use(
   }),
 );
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("MoodPlay API is running");
+});
+
+// Health check route
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "MoodPlay API running" });
 });
