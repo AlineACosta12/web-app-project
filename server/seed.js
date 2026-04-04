@@ -5,10 +5,11 @@
 // Requires: server/.env to be configured with a valid MONGODB_URI
 
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
+const path = require("path");
 
-dotenv.config();
+// Load environment variables from the server root .env file
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 // Import models
 const User = require("./src/models/User");
@@ -17,17 +18,21 @@ const Rating = require("./src/models/Rating");
 
 const seed = async () => {
   try {
+    console.log("MONGODB_URI loaded in seed:", !!process.env.MONGODB_URI);
+
     // Connect to MongoDB using the URI from .env
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB");
 
-    // Clear existing seed data (only removes demo accounts, not real user data)
+    // Remove existing demo users if they already exist
     await User.deleteMany({
       email: { $in: ["demo@moodplay.com", "testuser@moodplay.com"] },
     });
-    await User.deleteMany({ username: { $in: ["demouser", "testuser"] } });
-    console.log("Cleared existing seed accounts");
+    await User.deleteMany({
+      username: { $in: ["demouser", "testuser"] },
+    });
 
+    console.log("Cleared existing seed accounts");
     // Create two demo users
     // Passwords are hashed by the User model pre-save hook
     const user1 = await User.create({

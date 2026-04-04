@@ -1,8 +1,7 @@
 // MoodPlay — User Model
-// Byron Gift Ochieng Makasembo | 3062457
-// Defines the User schema for MongoDB.
-// Password is hashed automatically before saving using bcrypt (10 rounds).
-// Never return the password field in API responses.
+// Represents a user account in the database.
+// Passwords are hashed automatically before saving using bcrypt.
+// The password field is excluded from query results by default.
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -11,7 +10,7 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "Username is required"],
       unique: true,
       trim: true,
     },

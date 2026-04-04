@@ -1,6 +1,6 @@
-// MoodPlay — Movie Routes (TMDB Proxy)
-// Byron Gift Ochieng Makasembo | 3062457
-// All TMDB API calls go through here — the API key never reaches the frontend.
+// MoodPlay — Movie Routes
+// Defines the routes for fetching movies from TMDB through the backend.
+// This keeps the TMDB API key protected and away from the frontend.
 
 const express = require("express");
 const {
@@ -14,25 +14,26 @@ const {
 const router = express.Router();
 
 // GET /api/movies/mood/:mood
-// Returns a list of movies matching the selected mood via TMDB discover
+// Returns movies that match the selected mood
 router.get("/mood/:mood", getMoviesByMood);
 
 // GET /api/movies/random
-// Returns a single random movie from TMDB popular list (Fortune Teller feature)
-// NOTE: declared before /:tmdbId to avoid route conflict
+// Returns one random movie for the Fortune Teller feature
+// This route must come before /:tmdbId to avoid conflictsct
 router.get("/random", getRandomMovie);
 
 // GET /api/movies/nowplaying
-// Returns movies currently in cinemas (Big Screen feature)
-// NOTE: declared before /:tmdbId to avoid route conflict
+// Returns movies currently showing in cinemas
+// This route must come before /:tmdbId to avoid conflicts
 router.get("/nowplaying", getNowPlaying);
 
 // GET /api/movies/search?q=
-// Searches TMDB by movie title
+// Searches for movies by title
+// This route must come before /:tmdbId to avoid conflicts
 router.get("/search", searchMovies);
 
 // GET /api/movies/:tmdbId
-// Fetches full detail for a single movie by its TMDB ID
+// Returns full details for a movie using its TMDB ID
 router.get("/:tmdbId", getMovieById);
 
 module.exports = router;
