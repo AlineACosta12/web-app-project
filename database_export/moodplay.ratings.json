@@ -1,0 +1,95 @@
+[{
+  "_id": {
+    "$oid": "69d13d7dad388a2117503582"
+  },
+  "userId": {
+    "$oid": "69d13c65ad388a2117503570"
+  },
+  "tmdbId": 550,
+  "title": "Fight Club",
+  "score": 5,
+  "review": "Very good movie",
+  "createdAt": {
+    "$date": "2026-04-04T16:34:05.615Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-04T16:34:05.615Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69d140abd0b56aa92ba79387"
+  },
+  "userId": {
+    "$oid": "69d140abd0b56aa92ba79377"
+  },
+  "tmdbId": 550,
+  "title": "Fight Club",
+  "score": 5,
+  "review": "One of the best films ever made. Mind-blowing twist.",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-04-04T16:47:39.336Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-04T16:47:39.336Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69d140abd0b56aa92ba79388"
+  },
+  "userId": {
+    "$oid": "69d140abd0b56aa92ba79377"
+  },
+  "tmdbId": 27205,
+  "title": "Inception",
+  "score": 4,
+  "review": "Visually stunning and cleverly written. A bit complex on first watch.",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-04-04T16:47:39.336Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-04T16:47:39.336Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69d140abd0b56aa92ba7938a"
+  },
+  "userId": {
+    "$oid": "69d140abd0b56aa92ba79379"
+  },
+  "tmdbId": 299536,
+  "title": "Avengers: Infinity War",
+  "score": 5,
+  "review": "Epic crossover. Thanos is the best villain in the MCU.",
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-04-04T16:47:39.350Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-04T16:47:39.350Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69d142563ecae6ce3c4105cf"
+  },
+  "userId": {
+    "$oid": "69d140abd0b56aa92ba79377"
+  },
+  "tmdbId": 603,
+  "title": "The Matrix",
+  "score": 5,
+  "review": "Excellent movie",
+  "createdAt": {
+    "$date": "2026-04-04T16:54:46.446Z"
+  },
+  "updatedAt": {
+    "$date": "2026-04-04T16:54:46.446Z"
+  },
+  "__v": 0
+}]
