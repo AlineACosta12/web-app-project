@@ -414,7 +414,7 @@ The main backend files were developed collaboratively, with the following primar
 
 **Backend:** Complete — all main server-side features implemented and tested.
 
-**Frontend:** In progress — pages and components created, but not initiated.
+**Frontend:** In progress — pages created, but not initiated.
 
 **Deployment:** Live — `https://moodplay-myvq.onrender.com`  
 **Database:** MongoDB Atlas
