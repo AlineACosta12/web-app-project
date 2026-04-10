@@ -8,9 +8,9 @@ Built as part of the Web Technologies module at Griffith College Cork.
 
 ## Team
 
-- Aline Andrade Costa
-- Byron Gift Ochieng Makasembo
-- Sergio Alves da Silva
+- Aline Andrade Costa - 3144949
+- Byron Gift Ochieng Makasembo - 3062457
+- Sergio Alves da Silva - 3139115
 
 Module: Web Technologies — Year 3 | Griffith College Cork | Lecturer: Martin Dow
 
