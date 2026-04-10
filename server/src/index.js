@@ -12,8 +12,6 @@ const session = require("express-session");
 // Load environment variables from the server root .env file
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
-console.log("MONGODB_URI loaded:", !!process.env.MONGODB_URI);
-
 const { connectDB } = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const movieRoutes = require("./routes/movieRoutes");
