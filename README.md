@@ -16,6 +16,12 @@ Module: Web Technologies — Year 3 | Griffith College Cork | Lecturer: Martin D
 
 ---
 
+## Repository
+
+GitHub repository: https://github.com/AlineACosta12/web-app-project
+
+---
+
 ## Project Overview
 
 MoodPlay helps users decide what to watch based on how they feel. Instead of browsing endlessly, users can select a mood and receive movie recommendations through the TMDB API.
@@ -40,7 +46,7 @@ This backend is deployed online and connected to MongoDB Atlas.
 | F1  | Mood Browsing  | Pick a mood, get a genre-matched movie list           |
 | F2  | Fortune Teller | Random movie recommendation                           |
 | F3  | Big Screen     | Movies currently in cinemas                           |
-| F4  | Auth           | Register, login, JWT-protected sessions               |
+| F4  | Auth           | Register, login, logout, and protected user sessions  |
 | F5  | Watchlist      | Add movies, track status (Plan / Watching / Watched)  |
 | F6  | Ratings        | Rate movies 1–5 stars with an optional written review |
 
@@ -113,7 +119,7 @@ This backend is deployed online and connected to MongoDB Atlas.
 **API Base URL:**  
 `https://moodplay-myvq.onrender.com/api`
 
-### Working Test Routes
+### Working Public Test Routes
 
 - `/`
 - `/api`
@@ -156,11 +162,14 @@ This backend is deployed online and connected to MongoDB Atlas.
 
 ```text
 web-app-project/
+├── bruno/
+│   └── moodplay-api-tests/
 ├── client/
 │   └── src/
 │       ├── components/
 │       ├── pages/
 │       └── main.jsx
+├── database_export/
 ├── server/
 │   ├── src/
 │   │   ├── config/
@@ -188,6 +197,7 @@ web-app-project/
 │   ├── package.json
 │   ├── package-lock.json
 │   └── seed.js
+├── coversheet.pdf
 └── README.md
 ```
 
@@ -324,20 +334,48 @@ node seed.js
 
 ## Testing
 
-The backend was tested locally and against the deployed Render backend.
+The MoodPlay backend API was tested using Bruno.
 
-Testing included:
+The following routes were tested successfully:
 
-- registration
-- login
-- logout
-- auth state
-- profile endpoints
-- movie endpoints
-- watchlist CRUD
-- ratings CRUD
-- validation and error handling
-- seed script and Atlas database checks
+### Base routes
+
+- GET /
+- GET /api
+- GET /api/health
+
+### Authentication and protected access
+
+- POST /api/auth/register
+- POST /api/auth/login
+- GET /api/auth/me
+- GET /api/profile
+- Unauthorized access test for protected routes
+
+### Movie routes
+
+- GET /api/movies/mood/:mood
+
+### Watchlist CRUD
+
+- POST /api/watchlist/:tmdbId
+- GET /api/watchlist
+- PUT /api/watchlist/:tmdbId
+- DELETE /api/watchlist/:tmdbId
+
+### Ratings CRUD
+
+- POST /api/ratings/:tmdbId
+- GET /api/ratings
+- GET /api/ratings/:tmdbId
+- PUT /api/ratings/:tmdbId
+- DELETE /api/ratings/:tmdbId
+
+Testing confirmed that protected routes worked correctly after login, records could be created, read, updated, and deleted successfully, and unauthorized access was blocked when authentication cookies were removed.
+
+Testing included protected CRUD operations for watchlist and ratings after authentication.
+
+The Bruno collection and saved request files are included in the project submission.
 
 ---
 
@@ -353,24 +391,22 @@ For this assignment iteration, the main focus was on implementing the **server-s
 
 Work was divided across the team for this iteration as follows:
 
-- **Byron Gift Ochieng Makasembo**  
-  Backend architecture, database seeding, MongoDB Atlas setup, deployment to Render, and API implementation support.
+**Byron Gift Ochieng Makasembo**  
+Backend architecture, database seeding, MongoDB Atlas setup, deployment to Render, and API implementation support.
 
-- **Aline Andrade Costa**  
-  Project coordination, deployment verification, backend testing, database testing using mongosh, README and submission preparation, and frontend integration preparation.
+**Aline Andrade Costa**  
+Project coordination, deployment verification, backend testing with Bruno, database testing using `mongosh`, README and submission preparation, and frontend integration preparation.
 
-- **Sergio Alves da Silva**  
-  Backend code corrections, route/controller integration, project fixes, and support with implementation updates.
-
----
+**Sergio Alves da Silva**  
+Backend code corrections, route and controller integration, project fixes, and support with implementation updates, and backend testing with postaman.
 
 ## File Authorship / Contribution Notes
 
-Main backend files were contributed to collaboratively, with stronger focus areas as follows:
+The main backend files were developed collaboratively, with the following primary areas of contribution:
 
-- **Byron:** deployment, seeding, backend structure
-- **Sergio:** backend corrections and integrations
-- **Aline:** testing, deployment verification, submission preparation, frontend integration preparation
+- **Byron:** deployment, database seeding, and backend structure
+- **Sergio:** backend corrections, route integration, backend testing, and controller integration
+- **Aline:** backend testing, deployment verification, submission preparation, and frontend integration preparation
 
 ---
 

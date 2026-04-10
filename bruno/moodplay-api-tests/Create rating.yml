@@ -1,0 +1,23 @@
+info:
+  name: Create rating
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/ratings/550"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Fight Club",
+        "score": 5,
+        "review": "Great movie"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

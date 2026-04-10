@@ -1,0 +1,21 @@
+info:
+  name: Update watchlist
+  type: http
+  seq: 13
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/watchlist/550"
+  body:
+    type: json
+    data: |-
+      {
+        "status": "watched"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
