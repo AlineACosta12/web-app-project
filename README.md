@@ -414,7 +414,7 @@ The main backend files were developed collaboratively, with the following primar
 
 **Backend:** Complete — all main server-side features implemented and tested.
 
-**Frontend:** In progress — pages and components are being connected to the API.
+**Frontend:** In progress — pages and components created, but not initiated.
 
 **Deployment:** Live — `https://moodplay-myvq.onrender.com`  
 **Database:** MongoDB Atlas
@@ -434,3 +434,4 @@ The main backend files were developed collaboratively, with the following primar
 - Render — https://render.com/docs
 - React — https://react.dev/
 - Vite — https://vitejs.dev/
+- MERN Stack Tutorial for Beginners with Deployment – https://www.youtube.com/watch?v=F9gB5b4jgOI
