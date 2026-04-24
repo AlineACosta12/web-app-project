@@ -76,29 +76,21 @@ const updateProfile = async (req, res) => {
       user.email = email;
     }
 
-    // Build update object from only the fields that were provided
-    const updateData = {};
-    if (username !== undefined) updateData.username = username;
-    if (email !== undefined) updateData.email = email;
-    if (avatar !== undefined) updateData.avatar = avatar;
+    if (avatar !== undefined) {
+      user.avatar = avatar;
+    }
 
-    // Use findByIdAndUpdate instead of user.save() to avoid triggering the
-    // pre-save password hash hook on a document loaded without the password field
-    const updated = await User.findByIdAndUpdate(
-      req.userId,
-      updateData,
-      { new: true, runValidators: true }
-    );
+    await user.save();
 
     res.json({
       message: "Profile updated successfully",
       user: {
-        id: updated._id,
-        username: updated.username,
-        email: updated.email,
-        avatar: updated.avatar,
-        createdAt: updated.createdAt,
-        updatedAt: updated.updatedAt,
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        avatar: user.avatar,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
     });
   } catch (err) {
@@ -179,14 +171,12 @@ const deleteProfile = async (req, res) => {
       sameSite: "lax",
     });
 
-    // Destroy server-side session before responding to prevent reuse
+    // Destroy server-side session if present
     if (req.session) {
-      req.session.destroy(() => {
-        res.json({ message: "Account deleted successfully" });
-      });
-    } else {
-      res.json({ message: "Account deleted successfully" });
+      req.session.destroy(() => {});
     }
+
+    res.json({ message: "Account deleted successfully" });
   } catch (err) {
     console.error("deleteProfile error:", err.message);
     res.status(500).json({ message: "Failed to delete account" });
