@@ -35,16 +35,16 @@ The project was built across two assignments:
 
 ## Features
 
-| #   | Feature        | Description                                           |
-| --- | -------------- | ----------------------------------------------------- |
-| F1  | Mood Browsing  | Pick a mood, get a genre-matched movie list           |
-| F2  | Fortune Teller | Random movie recommendation                           |
-| F3  | Big Screen     | Movies currently in cinemas                           |
-| F4  | Auth           | Register, login, logout, and protected user sessions  |
-| F5  | Watchlist      | Add movies, track status (Plan / Watching / Watched)  |
-| F6  | Ratings        | Rate movies 1–5 stars with an optional written review |
-| F7  | Search         | Search for any movie by title                         |
-| F8  | Profile        | Edit username, email, avatar, password, delete account|
+| #   | Feature        | Description                                            |
+| --- | -------------- | ------------------------------------------------------ |
+| F1  | Mood Browsing  | Pick a mood, get a genre-matched movie list            |
+| F2  | Fortune Teller | Random movie recommendation                            |
+| F3  | Big Screen     | Movies currently in cinemas                            |
+| F4  | Auth           | Register, login, logout, and protected user sessions   |
+| F5  | Watchlist      | Add movies, track status (Plan / Watching / Watched)   |
+| F6  | Ratings        | Rate movies 1–5 stars with an optional written review  |
+| F7  | Search         | Search for any movie by title                          |
+| F8  | Profile        | Edit username, email, avatar, password, delete account |
 
 ---
 
@@ -60,32 +60,32 @@ The real backend service is preserved in `client/src/services/api.backend.js` an
 
 ### Pages
 
-| Page | Route | Description |
-| --- | --- | --- |
-| Home | `/` | Mood board with 8 mood cards and a featured movies section |
-| Results | `/results?mood=` | Movie grid filtered by the selected mood |
-| Movie Details | `/movie/:id` | Full movie info, watchlist button, star rating, and review form |
-| Search | `/search?q=` | Title search with paginated results and Load More |
-| Login | `/login` | Email and password login form with client-side validation |
-| Register | `/register` | Account creation form with validation |
-| Watchlist | `/watchlist` | All saved movies with status selector and remove button |
-| Ratings | `/ratings` | All rated movies with star display and delete action |
-| Profile | `/profile` | Edit username, email, avatar; change password; delete account |
-| About | `/about` | App description, mood guide, how-it-works, and tech stack |
-| 404 | `*` | Catch-all page for unknown routes |
+| Page          | Route            | Description                                                     |
+| ------------- | ---------------- | --------------------------------------------------------------- |
+| Home          | `/`              | Mood board with 8 mood cards and a featured movies section      |
+| Results       | `/results?mood=` | Movie grid filtered by the selected mood                        |
+| Movie Details | `/movie/:id`     | Full movie info, watchlist button, star rating, and review form |
+| Search        | `/search?q=`     | Title search with paginated results and Load More               |
+| Login         | `/login`         | Email and password login form with client-side validation       |
+| Register      | `/register`      | Account creation form with validation                           |
+| Watchlist     | `/watchlist`     | All saved movies with status selector and remove button         |
+| Ratings       | `/ratings`       | All rated movies with star display and delete action            |
+| Profile       | `/profile`       | Edit username, email, avatar; change password; delete account   |
+| About         | `/about`         | App description, mood guide, how-it-works, and tech stack       |
+| 404           | `*`              | Catch-all page for unknown routes                               |
 
 ---
 
 ### Components
 
-| Component | Location | Description |
-| --- | --- | --- |
-| `Layout` | `components/layout/Layout.jsx` | Wraps all pages with Navbar and Footer via React Router `<Outlet>` |
-| `Navbar` | `components/layout/Navbar.jsx` | Logo, nav links, inline search bar, login/logout, welcome message |
-| `Footer` | `components/layout/Footer.jsx` | Site footer with attribution |
-| `MovieCard` | `components/movies/MovieCard.jsx` | Reusable movie poster card linking to Movie Details |
-| `LoginForm` | `components/auth/LoginForm.jsx` | Reusable login form used by LoginPage |
-| `BackToTopButton` | `components/common/BackToTopButton.jsx` | Floating scroll-to-top button |
+| Component         | Location                                | Description                                                        |
+| ----------------- | --------------------------------------- | ------------------------------------------------------------------ |
+| `Layout`          | `components/layout/Layout.jsx`          | Wraps all pages with Navbar and Footer via React Router `<Outlet>` |
+| `Navbar`          | `components/layout/Navbar.jsx`          | Logo, nav links, inline search bar, login/logout, welcome message  |
+| `Footer`          | `components/layout/Footer.jsx`          | Site footer with attribution                                       |
+| `MovieCard`       | `components/movies/MovieCard.jsx`       | Reusable movie poster card linking to Movie Details                |
+| `LoginForm`       | `components/auth/LoginForm.jsx`         | Reusable login form used by LoginPage                              |
+| `BackToTopButton` | `components/common/BackToTopButton.jsx` | Floating scroll-to-top button                                      |
 
 ---
 
@@ -101,15 +101,16 @@ Contains 20 hardcoded movies covering every mood category (`happy`, `sad`, `moti
 
 Simulates all API namespaces with a 200 ms artificial delay for realism:
 
-| Namespace | Methods | Storage |
-| --- | --- | --- |
-| `authApi` | `register`, `login`, `logout`, `me` | `localStorage` |
-| `profileApi` | `getProfile`, `updateProfile`, `changePassword`, `deleteProfile` | `localStorage` |
-| `moviesApi` | `trending`, `byMood`, `details`, `search` | `mockData.js` |
-| `watchlistApi` | `list`, `add`, `updateStatus`, `remove` | `localStorage` |
-| `ratingApi` | `addRating`, `updateRating`, `getRatings`, `getRating`, `deleteRating` | `localStorage` |
+| Namespace      | Methods                                                                | Storage        |
+| -------------- | ---------------------------------------------------------------------- | -------------- |
+| `authApi`      | `register`, `login`, `logout`, `me`                                    | `localStorage` |
+| `profileApi`   | `getProfile`, `updateProfile`, `changePassword`, `deleteProfile`       | `localStorage` |
+| `moviesApi`    | `trending`, `byMood`, `details`, `search`                              | `mockData.js`  |
+| `watchlistApi` | `list`, `add`, `updateStatus`, `remove`                                | `localStorage` |
+| `ratingApi`    | `addRating`, `updateRating`, `getRatings`, `getRating`, `deleteRating` | `localStorage` |
 
 Mock storage keys:
+
 - `moodplay_mock_users` — registered user accounts
 - `moodplay_mock_current_user` — active session
 - `moodplay_mock_watchlist` — watchlist items per user
@@ -144,6 +145,7 @@ npm run dev
 Open `http://localhost:5173` in your browser.
 
 **Demo flow:**
+
 1. Register a new account on `/register`
 2. Log in on `/login`
 3. Pick a mood on the home page
@@ -537,26 +539,49 @@ The original project idea included both frontend and backend features across two
 
 ---
 
-## Division of Labour
+# Division of Labour
 
-Work was divided across the team for this iteration as follows:
+Work was divided across the team as follows.
 
-**Byron Gift Ochieng Makasembo**  
-Backend architecture, database seeding, MongoDB Atlas setup, deployment to Render, and API implementation support.
+## Byron Gift Ochieng Makasembo
 
-**Aline Andrade Costa**  
-Project coordination, deployment verification, backend testing with Bruno, database testing using `mongosh`, README and submission preparation, and frontend integration preparation.
+- Backend architecture
+- Database seeding
+- MongoDB Atlas setup
+- Render deployment
+- Backend API implementation support
 
-**Sergio Alves da Silva**  
-Backend code corrections, route and controller integration, project fixes, and support with implementation updates, and backend testing with postaman.
+## Aline Andrade Costa
 
-## File Authorship / Contribution Notes
+- Project coordination
+- Deployment verification
+- Backend testing with Bruno
+- Database testing using `mongosh`
+- README and submission preparation
+- Frontend integration preparation
+- Client-side implementation and final project organisation
 
-The main backend files were developed collaboratively, with the following primary areas of contribution:
+## Sergio Alves da Silva
 
-- **Byron:** deployment, database seeding, and backend structure
-- **Sergio:** backend corrections, route integration, backend testing, and controller integration
-- **Aline:** backend testing, deployment verification, submission preparation, and frontend integration preparation
+- Documentation support
+- Frontend decision support
+- Backend code corrections
+- Route and controller integration
+- Project fixes
+- Implementation updates
+- Backend testing with Postman
+
+---
+
+# File Authorship / Contribution Notes
+
+The project was developed collaboratively. The main areas of contribution were:
+
+| Contributor | Main Contributions                                                                                                                |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Byron       | Backend structure, deployment, database seeding, MongoDB Atlas setup                                                              |
+| Aline       | Testing, documentation, project coordination, frontend integration, submission preparation                                        |
+| Sergio      | Documentation support, frontend decision support, backend corrections, route integration, controller updates, and testing support |
 
 ---
 
@@ -578,10 +603,12 @@ The main backend files were developed collaboratively, with the following primar
 - MongoDB Atlas — https://www.mongodb.com/docs/atlas/
 - TMDB API — https://developer.themoviedb.org/
 - bcryptjs — https://www.npmjs.com/package/bcryptjs
-- jsonwebtoken — https://www.npmjs.com/package/jsonwebtoken
 - express-session — https://www.npmjs.com/package/express-session
 - cookie-parser — https://www.npmjs.com/package/cookie-parser
 - Render — https://render.com/docs
 - React — https://react.dev/
 - Vite — https://vitejs.dev/
-- MERN Stack Tutorial for Beginners with Deployment – https://www.youtube.com/watch?v=F9gB5b4jgOI
+- React Router — https://reactrouter.com/
+- Bruno — https://www.usebruno.com/
+- Flaticon GIF icons — https://www.flaticon.com/
+- MERN Stack Tutorial for Beginners with Deployment — https://www.youtube.com/watch?v=F9gB5b4jgOI
