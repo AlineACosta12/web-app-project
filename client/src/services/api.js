@@ -470,7 +470,8 @@ export const ratingApi = {
         item.userId === user.id && String(item.tmdbId) === String(movieId),
     );
 
-    return rating || null;
+    if (!rating) throw new Error("Rating not found");
+    return rating;
   },
 
   deleteRating: async (movieId) => {

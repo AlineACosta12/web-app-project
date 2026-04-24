@@ -3,13 +3,11 @@
 // It performs basic client-side validation before sending the login request.
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LoginForm from "../components/auth/LoginForm";
 import { authApi, pickUser } from "../services/api";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-
   // Stores the email and password entered by the user.
   const [formData, setFormData] = useState({
     email: "",
@@ -46,7 +44,8 @@ export default function LoginPage() {
       // Store basic user data so the UI can update after login.
       localStorage.setItem("user", JSON.stringify(user || {}));
 
-      navigate("/");
+      // Force refresh so Navbar reads the logged-in user immediately.
+      window.location.href = "/";
     } catch (err) {
       setError(err.message);
     } finally {
