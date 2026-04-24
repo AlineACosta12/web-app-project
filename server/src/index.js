@@ -21,6 +21,10 @@ const profileRoutes = require("./routes/profileRoutes");
 
 const app = express();
 
+// set up Pug as the template engine for server-rendered HTML views
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -48,14 +52,53 @@ app.get("/api", (req, res) => {
   res.json({ message: "MoodPlay API base route is working" });
 });
 
-// Root route
+// Root route — renders the mood picker landing page using Pug template
 app.get("/", (req, res) => {
-  res.send("MoodPlay API is running");
+  res.render("index", { title: "Home" });
 });
 
 // Health check route
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "MoodPlay API running" });
+});
+
+// HTML browse routes — renders movie results using Pug templates
+// these use the TMDB API on the server and return HTML, not JSON
+const axios = require("axios");
+
+const MOOD_GENRES = {
+  happy: "35,16,10751",
+  sad: "18",
+  romantic: "10749",
+  motivated: "28,12",
+  bored: "53,9648",
+  mindblow: "878,14",
+};
+
+app.get("/browse/mood/:mood", async (req, res) => {
+  const { mood } = req.params;
+  const genres = MOOD_GENRES[mood.toLowerCase()];
+
+  if (!genres) {
+    return res.render("error", { title: "Error", message: `Unknown mood: ${mood}` });
+  }
+
+  try {
+    const response = await axios.get("https://api.themoviedb.org/3/discover/movie", {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        with_genres: genres,
+        sort_by: "popularity.desc",
+        include_adult: false,
+        language: "en-IE",
+      },
+    });
+
+    const movies = response.data.results || [];
+    res.render("movies", { title: `${mood} movies`, mood, movies });
+  } catch (err) {
+    res.render("error", { title: "Error", message: "Could not load movies right now" });
+  }
 });
 
 app.use("/api/auth", authRoutes);
