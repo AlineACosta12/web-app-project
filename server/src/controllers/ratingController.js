@@ -52,7 +52,7 @@ const getRating = async (req, res) => {
 // Body: { title, score, review }
 const createRating = async (req, res) => {
   const movieID = Number(req.params.tmdbId);
-  const { title, score, review } = req.body;
+  const { title, score, review, poster } = req.body;
 
   if (!Number.isInteger(movieID) || movieID <= 0) {
     return res.status(400).json({ message: "Invalid movie ID" });
@@ -85,6 +85,7 @@ const createRating = async (req, res) => {
       userId: req.userId,
       tmdbId: movieID,
       title: title.trim(),
+      poster: poster ? String(poster) : "",
       score: numericScore,
       review: review ? String(review).trim() : "",
     });
@@ -101,7 +102,7 @@ const createRating = async (req, res) => {
 // Body: { title, score, review }
 const updateRating = async (req, res) => {
   const movieID = Number(req.params.tmdbId);
-  const { title, score, review } = req.body;
+  const { title, score, review, poster } = req.body;
 
   if (!Number.isInteger(movieID) || movieID <= 0) {
     return res.status(400).json({ message: "Invalid movie ID" });
@@ -114,6 +115,10 @@ const updateRating = async (req, res) => {
       return res.status(400).json({ message: "Title cannot be empty" });
     }
     updateData.title = title.trim();
+  }
+
+  if (poster !== undefined) {
+    updateData.poster = String(poster);
   }
 
   if (score !== undefined) {

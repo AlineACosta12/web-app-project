@@ -35,7 +35,16 @@ const MOOD_GENRES = {
   romantic: "10749", // Romance
   motivated: "28,12", // Action, Adventure
   bored: "53,9648", // Thriller, Mystery
+
+  // Support both frontend text and backend-friendly names
   mindblow: "878,14", // Science Fiction, Fantasy
+  "mind blown": "878,14", // Science Fiction, Fantasy
+
+  bigscreen: "28,12,878", // Action, Adventure, Science Fiction
+  "big screen": "28,12,878", // Big screen / blockbuster style movies
+
+  fortuneteller: "9648,14,878", // Mystery, Fantasy, Science Fiction
+  "fortune teller": "9648,14,878", // Random surprise style movies
 };
 
 // GET /api/movies/mood/:mood

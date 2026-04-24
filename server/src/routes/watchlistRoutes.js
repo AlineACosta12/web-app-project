@@ -1,9 +1,11 @@
 // MoodPlay — Watchlist Routes
 // Defines the routes for creating, retrieving, updating,
 // and deleting items in the logged-in user's watchlist.
+// The project uses session-based authentication.
 
 const express = require("express");
 const protect = require("../middleware/auth");
+
 const {
   getWatchlist,
   addToWatchlist,

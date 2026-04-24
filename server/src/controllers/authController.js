@@ -1,27 +1,32 @@
 // MoodPlay — Authentication Controller
 // Handles user registration, login, logout, and retrieval of the current user.
 // Public routes: register and login.
-// When a user logs in or registers, the controller creates a JWT, stores it
-// in an httpOnly cookie, and saves basic user information in the session.
+// The project uses sessions instead of JWT.
+// When a user logs in or registers, basic user information is saved in the session.
 
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// Helper function to create the login session after register/login
-// It stores the JWT in an httpOnly cookie and saves basic user data in the session.
-const issueSession = (req, res, user, token) => {
-  // Store the JWT in an httpOnly cookie.
-  // This helps protect the token from client-side JavaScript access.
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // HTTPS only in production
-    sameSite: "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-  });
+// Helper function to return safe user data to the frontend
+const formatUser = (user) => ({
+  id: user._id,
+  username: user.username,
+  email: user.email,
+  avatar: user.avatar,
+  role: user.role || "user",
+});
 
-  // Save user details in the server-side session
-  req.session.userId = user._id.toString();
-  req.session.username = user.username;
+// Helper function to create the login session after register/login
+const issueSession = (req, user) => {
+  return new Promise((resolve, reject) => {
+    req.session.userId = user._id.toString();
+    req.session.username = user.username;
+    req.session.role = user.role || "user";
+
+    req.session.save((err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
 };
 
 // POST /api/auth/register
@@ -74,23 +79,12 @@ const register = async (req, res) => {
     // Create the new user
     const user = await User.create({ username, email, password });
 
-    // Create a JWT containing the user's ID
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    // Store login information in the cookie and session
-    issueSession(req, res, user, token);
+    // Save user details in the server-side session
+    await issueSession(req, user);
 
     res.status(201).json({
       message: "User registered successfully",
-      // Never return the password field
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        avatar: user.avatar,
-      },
+      user: formatUser(user),
     });
   } catch (err) {
     // Handle duplicate key errors from MongoDB
@@ -99,6 +93,7 @@ const register = async (req, res) => {
         .status(400)
         .json({ message: "Username or email already in use" });
     }
+
     res.status(500).json({ message: err.message });
   }
 };
@@ -119,34 +114,25 @@ const login = async (req, res) => {
     email = email.toLowerCase().trim();
 
     // Find the user by email and include the password for verification
-    const user = await User.findOne({ email }).select("+password"); // Include password hash for verification
+    const user = await User.findOne({ email }).select("+password");
+
     if (!user) {
-      // Use a generic message to avoid revealing whether the email exists
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Compare the entered password with the stored hashed password
     const match = await user.comparePassword(password);
+
     if (!match) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Issue a new token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
-
-    // Set cookie and session
-    issueSession(req, res, user, token);
+    // Save user details in the server-side session
+    await issueSession(req, user);
 
     res.json({
       message: "User logged in successfully",
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        avatar: user.avatar,
-      },
+      user: formatUser(user),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -154,39 +140,32 @@ const login = async (req, res) => {
 };
 
 // POST /api/auth/logout
-// Logs the user out by clearing the auth cookie and destroying the session.
+// Logs the user out by destroying the session.
 const logout = (req, res) => {
-  // Remove the JWT cookie from the browser
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-  });
-
-  // Destroy the server-side session data
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ message: "Logout failed" });
     }
+
+    res.clearCookie("connect.sid");
+
     res.json({ message: "Logged out successfully" });
   });
 };
 
 // GET /api/auth/me
 // Returns the currently logged-in user's profile.
-// The user ID should already be available from the authentication middleware.
+// The user ID is available from the authentication middleware.
 const getMe = async (req, res) => {
   try {
-    // req.userId is set by the protect middleware
     const user = await User.findById(req.userId).select("-password");
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     res.json({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      avatar: user.avatar,
+      user: formatUser(user),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

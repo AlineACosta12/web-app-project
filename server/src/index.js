@@ -1,6 +1,6 @@
 // MoodPlay — Main Server Entry Point
 // Sets up the Express server, middleware, database connection,
-// and API routes for the MoodPlay application.
+// session-based authentication, and API routes for the MoodPlay application.
 
 const express = require("express");
 const cors = require("cors");
@@ -23,6 +23,7 @@ const profileRoutes = require("./routes/profileRoutes");
 
 const app = express();
 
+// Allow the React frontend to send requests with session cookies
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
@@ -30,17 +31,23 @@ app.use(
   }),
 );
 
+// Parse JSON request bodies
 app.use(express.json());
+
+// Parse cookies sent by the browser
 app.use(cookieParser());
 
+// Session middleware
+// This replaces JWT authentication.
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || process.env.JWT_SECRET,
+    secret: process.env.SESSION_SECRET || "moodplay_session_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   }),
@@ -68,8 +75,13 @@ app.use("/api/profile", profileRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB:", error.message);
+    process.exit(1);
   });
-});

@@ -1,20 +1,20 @@
 // MoodPlay — Rating Routes
 // Defines the routes for creating, retrieving, updating,
 // and deleting movie ratings for the logged-in user.
+// The project uses session-based authentication.
 
 const express = require("express");
-const protect = require("../middleware/auth.js");
+const protect = require("../middleware/auth");
+
 const {
   getAllRatings,
   getRating,
   createRating,
   updateRating,
   deleteRating,
-} = require("../controllers/ratingController.js");
+} = require("../controllers/ratingController");
 
 const router = express.Router();
-
-// Ratings CRUD routes
 
 // Protected route to get all ratings for the current user
 router.get("/", protect, getAllRatings);

@@ -36,6 +36,11 @@ const ratingSchema = new mongoose.Schema(
         message: "Score must be a whole number between 1 and 5",
       },
     },
+    // Poster path stored locally so the ratings page can display it without a TMDB call
+    poster: {
+      type: String,
+      default: "",
+    },
     // Optional written review
     review: {
       type: String,

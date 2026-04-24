@@ -1,6 +1,7 @@
 // MoodPlay — Authentication Routes
 // Defines the routes for user registration, login, logout,
 // and retrieving the currently logged-in user's details.
+// The project uses sessions instead of JWT.
 
 const express = require("express");
 const {
@@ -9,6 +10,7 @@ const {
   logout,
   getMe,
 } = require("../controllers/authController");
+
 const protect = require("../middleware/auth");
 
 const router = express.Router();
