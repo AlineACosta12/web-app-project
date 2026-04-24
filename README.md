@@ -24,18 +24,12 @@ GitHub repository: https://github.com/AlineACosta12/web-app-project
 
 ## Project Overview
 
-MoodPlay helps users decide what to watch based on how they feel. Instead of browsing endlessly, users can select a mood and receive movie recommendations through the TMDB API.
+MoodPlay helps users decide what to watch based on how they feel. Instead of browsing endlessly, users can select a mood and receive movie recommendations.
 
-For this server-side iteration, the project focuses on:
+The project was built across two assignments:
 
-- user management
-- server-side CRUD functionality
-- server-side validation
-- session and cookie handling
-- database integration
-- online deployment
-
-This backend is deployed online and connected to MongoDB Atlas.
+- **Assignment 2 (server-side):** REST API with Express, MongoDB, session authentication, and TMDB integration — deployed on Render.
+- **Assignment 3 (client-side):** Fully interactive React SPA with all user-facing features implemented. Runs standalone with a mock localStorage data layer — no backend required.
 
 ---
 
@@ -49,6 +43,113 @@ This backend is deployed online and connected to MongoDB Atlas.
 | F4  | Auth           | Register, login, logout, and protected user sessions  |
 | F5  | Watchlist      | Add movies, track status (Plan / Watching / Watched)  |
 | F6  | Ratings        | Rate movies 1–5 stars with an optional written review |
+| F7  | Search         | Search for any movie by title                         |
+| F8  | Profile        | Edit username, email, avatar, password, delete account|
+
+---
+
+## Features Implemented in Assignment 3 (Client-Side)
+
+### Overview
+
+Assignment 3 implements the complete React frontend as a self-contained SPA. All data is handled by a mock API layer that stores users, watchlist items, and ratings in the browser's `localStorage`. No backend connection is required to run or mark the client-side submission.
+
+The real backend service is preserved in `client/src/services/api.backend.js` and can be swapped back in by replacing `api.js`.
+
+---
+
+### Pages
+
+| Page | Route | Description |
+| --- | --- | --- |
+| Home | `/` | Mood board with 8 mood cards and a featured movies section |
+| Results | `/results?mood=` | Movie grid filtered by the selected mood |
+| Movie Details | `/movie/:id` | Full movie info, watchlist button, star rating, and review form |
+| Search | `/search?q=` | Title search with paginated results and Load More |
+| Login | `/login` | Email and password login form with client-side validation |
+| Register | `/register` | Account creation form with validation |
+| Watchlist | `/watchlist` | All saved movies with status selector and remove button |
+| Ratings | `/ratings` | All rated movies with star display and delete action |
+| Profile | `/profile` | Edit username, email, avatar; change password; delete account |
+| About | `/about` | App description, mood guide, how-it-works, and tech stack |
+| 404 | `*` | Catch-all page for unknown routes |
+
+---
+
+### Components
+
+| Component | Location | Description |
+| --- | --- | --- |
+| `Layout` | `components/layout/Layout.jsx` | Wraps all pages with Navbar and Footer via React Router `<Outlet>` |
+| `Navbar` | `components/layout/Navbar.jsx` | Logo, nav links, inline search bar, login/logout, welcome message |
+| `Footer` | `components/layout/Footer.jsx` | Site footer with attribution |
+| `MovieCard` | `components/movies/MovieCard.jsx` | Reusable movie poster card linking to Movie Details |
+| `LoginForm` | `components/auth/LoginForm.jsx` | Reusable login form used by LoginPage |
+| `BackToTopButton` | `components/common/BackToTopButton.jsx` | Floating scroll-to-top button |
+
+---
+
+### Mock API Layer
+
+The client-side submission uses a mock service (`src/services/api.js`) that mirrors the real backend API contract but stores all data in `localStorage`. This allows the full app to run without a server.
+
+**`src/services/mockData.js`**
+
+Contains 20 hardcoded movies covering every mood category (`happy`, `sad`, `motivated`, `romantic`, `bored`, `mindblow`, `bigscreen`, `fortuneteller`). Used by the mock API to serve mood-filtered, search, and detail results.
+
+**`src/services/api.js` (mock)**
+
+Simulates all API namespaces with a 200 ms artificial delay for realism:
+
+| Namespace | Methods | Storage |
+| --- | --- | --- |
+| `authApi` | `register`, `login`, `logout`, `me` | `localStorage` |
+| `profileApi` | `getProfile`, `updateProfile`, `changePassword`, `deleteProfile` | `localStorage` |
+| `moviesApi` | `trending`, `byMood`, `details`, `search` | `mockData.js` |
+| `watchlistApi` | `list`, `add`, `updateStatus`, `remove` | `localStorage` |
+| `ratingApi` | `addRating`, `updateRating`, `getRatings`, `getRating`, `deleteRating` | `localStorage` |
+
+Mock storage keys:
+- `moodplay_mock_users` — registered user accounts
+- `moodplay_mock_current_user` — active session
+- `moodplay_mock_watchlist` — watchlist items per user
+- `moodplay_mock_ratings` — ratings and reviews per user
+
+The Fortune Teller mood returns one random movie from `mockMovies`. The Big Screen mood returns movies tagged with `bigscreen` in `mockData.js`, paginated with 8 per page.
+
+---
+
+### Client-Side Validation
+
+All forms include validation before any mock API call:
+
+- **Register / Profile:** username ≥ 3 chars, valid email format, password ≥ 6 chars
+- **Login:** both fields required, email must contain `@`
+- **Password change:** current and new password required, new password ≥ 6 chars
+- **Rating form:** star selection required before save
+- **Search:** empty query is blocked
+
+---
+
+### Running the Client (Assignment 3)
+
+No backend or environment variables needed.
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173` in your browser.
+
+**Demo flow:**
+1. Register a new account on `/register`
+2. Log in on `/login`
+3. Pick a mood on the home page
+4. Open a movie, add it to your watchlist, and leave a star rating with a review
+5. View your watchlist at `/watchlist` and ratings at `/ratings`
+6. Edit your profile and avatar at `/profile`
 
 ---
 
@@ -136,7 +237,7 @@ This backend is deployed online and connected to MongoDB Atlas.
 - React 18
 - Vite
 - React Router v6
-- Axios
+- Fetch API (native — no Axios on the frontend)
 
 ### Backend
 
@@ -148,7 +249,6 @@ This backend is deployed online and connected to MongoDB Atlas.
 ### Authentication / State
 
 - bcryptjs
-- jsonwebtoken
 - express-session
 - cookie-parser
 
@@ -165,9 +265,42 @@ web-app-project/
 ├── bruno/
 │   └── moodplay-api-tests/
 ├── client/
+│   ├── public/
+│   │   ├── avatars/          # 16 preset avatar images
+│   │   └── moods/            # Mood GIF icons
 │   └── src/
+│       ├── assets/
+│       │   └── MoodPlay_logo.png
 │       ├── components/
+│       │   ├── auth/
+│       │   │   └── LoginForm.jsx
+│       │   ├── common/
+│       │   │   └── BackToTopButton.jsx
+│       │   ├── layout/
+│       │   │   ├── Footer.jsx
+│       │   │   ├── Layout.jsx
+│       │   │   └── Navbar.jsx
+│       │   └── movies/
+│       │       └── MovieCard.jsx
 │       ├── pages/
+│       │   ├── AboutPage.jsx
+│       │   ├── HomePage.jsx
+│       │   ├── LoginPage.jsx
+│       │   ├── MovieDetailsPage.jsx
+│       │   ├── NotFoundPage.jsx
+│       │   ├── ProfilePage.jsx
+│       │   ├── RatingsPage.jsx
+│       │   ├── RegisterPage.jsx
+│       │   ├── ResultsPage.jsx
+│       │   ├── SearchPage.jsx
+│       │   └── WatchlistPage.jsx
+│       ├── services/
+│       │   ├── api.js             # Mock API (localStorage) — used for Assignment 3
+│       │   ├── api.backend.js     # Real backend API (fetch + sessions) — Assignment 2
+│       │   └── mockData.js        # 20 hardcoded movies for the mock layer
+│       ├── App.jsx
+│       ├── App.css
+│       ├── index.css
 │       └── main.jsx
 ├── database_export/
 ├── server/
@@ -205,7 +338,22 @@ web-app-project/
 
 ## Setup & Installation
 
-### Prerequisites
+### Running the frontend only (Assignment 3 — no backend needed)
+
+```bash
+git clone https://github.com/AlineACosta12/web-app-project.git
+cd web-app-project/client
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Register an account and use the app fully offline — all data is stored in your browser's `localStorage`.
+
+---
+
+### Running the full stack (Assignment 2)
+
+#### Prerequisites
 
 - Node.js
 - npm
@@ -381,9 +529,11 @@ The Bruno collection and saved request files are included in the project submiss
 
 ## Changes from Initial Plan
 
-The original project idea included both frontend and backend features.
+The original project idea included both frontend and backend features across two assignment submissions.
 
-For this assignment iteration, the main focus was on implementing the **server-side components** required by the brief. The React frontend structure has been prepared, but the main completed work in this iteration is the backend API, authentication, database integration, validation, and deployment.
+**Assignment 2** focused on the server-side: REST API, authentication, database integration, validation, and deployment.
+
+**Assignment 3** completed the client-side: all React pages, components, routing, client-side validation, and a mock localStorage data layer so the frontend runs fully without a backend. The real backend service is preserved in `api.backend.js` for reference and full-stack use.
 
 ---
 
@@ -412,9 +562,9 @@ The main backend files were developed collaboratively, with the following primar
 
 ## Project Status
 
-**Backend:** Complete — all main server-side features implemented and tested.
+**Frontend (Assignment 3):** Complete — all pages, components, mock API, and localStorage data layer implemented and functional as a standalone SPA.
 
-**Frontend:** In progress — pages created, but not initiated.
+**Backend (Assignment 2):** Complete — all server-side features implemented, tested, and deployed.
 
 **Deployment:** Live — `https://moodplay-myvq.onrender.com`  
 **Database:** MongoDB Atlas
