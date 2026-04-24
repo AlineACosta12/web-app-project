@@ -22,6 +22,18 @@ GitHub repository: https://github.com/AlineACosta12/web-app-project
 
 ---
 
+## Live Client Deployment
+
+The client-side React version of MoodPlay is deployed on Render:
+
+https://web-app-project-9lly.onrender.com/
+
+This deployed version was created for the client-side React assignment. As required, no real HTTP requests are made. The app uses mock movie data and browser `localStorage` to simulate registration, login, profile, mood browsing, search, watchlist, and ratings.
+
+Some movie poster images may not appear in this mock version because the final poster images are designed to come from the real backend connection to the TMDB API. In the full backend version, movie data and images are retrieved from TMDB through the backend API.
+
+---
+
 ## Project Overview
 
 MoodPlay helps users decide what to watch based on how they feel. Instead of browsing endlessly, users can select a mood and receive movie recommendations.
@@ -591,7 +603,8 @@ The project was developed collaboratively. The main areas of contribution were:
 
 **Backend (Assignment 2):** Complete — all server-side features implemented, tested, and deployed.
 
-**Deployment:** Live — `https://moodplay-myvq.onrender.com`  
+**Client Deployment:** Live — `https://web-app-project-9lly.onrender.com/`  
+**Backend Deployment:** Live — `https://moodplay-myvq.onrender.com`  
 **Database:** MongoDB Atlas
 
 ---
