@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  style.
+    .error-box { text-align: center; padding: 4rem 1rem; }
+    .error-box h2 { font-size: 1.5rem; margin-bottom: 0.75rem; color: #f87171; }
+    .error-box p { color: #c9cad4; margin-bottom: 1.5rem; }
+
+  div.error-box
+    h2 Something went wrong
+    p= message
+    a(href='/') ← Go back home

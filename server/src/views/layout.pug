@@ -1,0 +1,31 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title MoodPlay — #{title}
+    style.
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { background: #0f1013; color: #f3f4f6; font-family: sans-serif; min-height: 100vh; }
+      a { color: #06b6d4; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      header { background: #1a1b1f; border-bottom: 1px solid #2a2b30; padding: 1rem 2rem; display: flex; align-items: center; gap: 1rem; }
+      header h1 { font-size: 1.3rem; color: #06b6d4; }
+      nav a { margin-left: 1.5rem; color: #c9cad4; font-size: 0.9rem; }
+      main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem; }
+      footer { text-align: center; color: #c9cad4; font-size: 0.8rem; padding: 2rem; border-top: 1px solid #2a2b30; margin-top: 3rem; }
+  body
+    header
+      h1 MoodPlay
+      nav
+        a(href='/') Home
+        a(href='/browse/mood/happy') Happy
+        a(href='/browse/mood/sad') Sad
+        a(href='/browse/mood/romantic') Romantic
+        a(href='/browse/mood/motivated') Motivated
+        a(href='/browse/mood/bored') Bored
+        a(href='/browse/mood/mindblow') Mind Blown
+    main
+      block content
+    footer
+      p MoodPlay — Web Technologies Assignment | Griffith College Cork
