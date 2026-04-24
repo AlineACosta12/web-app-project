@@ -1,34 +1,86 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// MoodPlay — app root, sets up routing and auth context
+// Byron Gift Ochieng Makasembo | 3062457
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import ResultsPage from './pages/ResultsPage'
+import MovieDetailsPage from './pages/MovieDetailsPage'
+import WatchlistPage from './pages/WatchlistPage'
+import ProfilePage from './pages/ProfilePage'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+// redirects logged-in users away from login/register pages
+const GuestOnly = ({ children }) => {
+  const { user, loading } = useAuth()
+  if (loading) return null
+  return user ? <Navigate to="/" replace /> : children
+}
 
+// blocks access to pages that need a login
+const RequireAuth = ({ children }) => {
+  const { user, loading } = useAuth()
+  if (loading) return null
+  return user ? children : <Navigate to="/login" replace />
+}
+
+function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          {/* public routes */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/mood/:mood" element={<ResultsPage />} />
+          {/* fortune teller - maps to GET /api/movies/random */}
+          <Route path="/random" element={<ResultsPage />} />
+          {/* big screen - maps to GET /api/movies/nowplaying */}
+          <Route path="/nowplaying" element={<ResultsPage />} />
+          <Route path="/movie/:id" element={<MovieDetailsPage />} />
+
+          {/* guest only - logged in users get bounced to home */}
+          <Route
+            path="/login"
+            element={
+              <GuestOnly>
+                <LoginPage />
+              </GuestOnly>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <GuestOnly>
+                <RegisterPage />
+              </GuestOnly>
+            }
+          />
+
+          {/* protected - must be logged in */}
+          <Route
+            path="/watchlist"
+            element={
+              <RequireAuth>
+                <WatchlistPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <ProfilePage />
+              </RequireAuth>
+            }
+          />
+
+          {/* catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
 

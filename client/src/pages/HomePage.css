@@ -1,0 +1,127 @@
+/* HomePage styles */
+
+.home-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.home-hero {
+  text-align: center;
+  padding: 3rem 0 2.5rem;
+}
+
+.home-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.home-hero h1 span {
+  color: var(--color-fortune);
+}
+
+.home-hero p {
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.section-label {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+
+/* 6 mood cards in a 3-col grid */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.mood-card {
+  border-radius: 14px;
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.mood-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+}
+
+.mood-emoji {
+  font-size: 2.8rem;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.mood-name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000;
+}
+
+/* quick action buttons at the bottom */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.action-card {
+  display: block;
+  padding: 1.5rem 1rem;
+  border-radius: 14px;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.18s;
+}
+
+.action-card:hover {
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.action-card span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.action-card p {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: #000;
+  font-size: 0.95rem;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .mood-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-hero h1 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .mood-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
