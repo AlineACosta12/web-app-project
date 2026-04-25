@@ -9,7 +9,7 @@ export default function MovieCard({ movie }) {
   // If the movie has no poster, show a placeholder image instead.
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "https://via.placeholder.com/300x450?text=No+Image";
+    : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450'%3E%3Crect width='300' height='450' fill='%23e0e0e0'/%3E%3C/svg%3E";
 
   // Use a safe title fallback in case the API response is missing a title.
   const title = movie.title || movie.name || "Untitled movie";

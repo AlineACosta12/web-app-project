@@ -14,6 +14,7 @@ export default function RegisterPage() {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   // Controls loading state and displays validation/API errors.
@@ -50,13 +51,18 @@ export default function RegisterPage() {
       return;
     }
 
-    if (!formData.email.includes("@")) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setError("Please enter a valid email address.");
       return;
     }
 
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -106,6 +112,16 @@ export default function RegisterPage() {
             name="password"
             placeholder="Password"
             value={formData.password}
+            onChange={handleChange}
+            required
+            minLength="6"
+          />
+
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={formData.confirmPassword}
             onChange={handleChange}
             required
             minLength="6"

@@ -47,6 +47,7 @@ export default function ProfilePage() {
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
+    confirmNewPassword: "",
   });
 
   // Controls loading, saving, success, and error states.
@@ -138,7 +139,7 @@ export default function ProfilePage() {
       return;
     }
 
-    if (!editForm.email.includes("@")) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editForm.email)) {
       setError("Please enter a valid email address.");
       return;
     }
@@ -177,6 +178,11 @@ export default function ProfilePage() {
       return;
     }
 
+    if (passwordForm.newPassword !== passwordForm.confirmNewPassword) {
+      setError("New passwords do not match.");
+      return;
+    }
+
     setSavingPassword(true);
 
     try {
@@ -185,6 +191,7 @@ export default function ProfilePage() {
       setPasswordForm({
         currentPassword: "",
         newPassword: "",
+        confirmNewPassword: "",
       });
 
       setMessage("Password updated successfully.");
@@ -206,7 +213,8 @@ export default function ProfilePage() {
     try {
       await profileApi.deleteProfile();
 
-      localStorage.clear();
+      // Only remove the UI session key — profileApi already cleaned up the mock storage.
+      localStorage.removeItem("user");
       navigate("/register");
     } catch (err) {
       setError(err.message);
@@ -334,6 +342,17 @@ export default function ProfilePage() {
             type="password"
             name="newPassword"
             value={passwordForm.newPassword}
+            onChange={handlePasswordChange}
+            required
+            minLength="6"
+          />
+
+          <label htmlFor="confirmNewPassword">Confirm New Password</label>
+          <input
+            id="confirmNewPassword"
+            type="password"
+            name="confirmNewPassword"
+            value={passwordForm.confirmNewPassword}
             onChange={handlePasswordChange}
             required
             minLength="6"

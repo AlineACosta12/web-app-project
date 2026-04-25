@@ -29,7 +29,7 @@ export default function LoginPage() {
       return;
     }
 
-    if (!formData.email.includes("@")) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setError("Please enter a valid email address.");
       return;
     }

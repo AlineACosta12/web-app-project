@@ -33,8 +33,11 @@ export default function SearchPage() {
   // Controls loading messages while the search request is running.
   const [loading, setLoading] = useState(false);
 
-  // Stores any API error message.
+  // Stores any API or validation error message.
   const [error, setError] = useState("");
+
+  // Stores a validation message shown when the user submits an empty search.
+  const [inputError, setInputError] = useState("");
 
   // Reference to the input element.
   const inputRef = useRef(null);
@@ -91,8 +94,13 @@ export default function SearchPage() {
     // Remove extra spaces from the search text.
     const trimmed = inputValue.trim();
 
-    // Do not search if the input is empty.
-    if (!trimmed) return;
+    // Show a message if the search box is empty instead of silently doing nothing.
+    if (!trimmed) {
+      setInputError("Please enter a movie title to search.");
+      return;
+    }
+
+    setInputError("");
 
     // Start again from page 1 for a new search.
     setPage(1);
@@ -132,6 +140,9 @@ export default function SearchPage() {
           Search
         </button>
       </form>
+
+      {/* Validation message for empty search submission */}
+      {inputError && <p className="error-message">{inputError}</p>}
 
       {/* Error message */}
       {error && <p className="error-message">{error}</p>}
