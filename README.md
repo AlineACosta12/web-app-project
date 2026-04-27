@@ -562,13 +562,6 @@ Work was divided across the team as follows.
 - MongoDB Atlas setup
 - Render deployment
 - Backend API implementation support
-- Client-side bug fixes and validation improvements (Assignment 3):
-  - Fixed `localStorage.clear()` on account deletion to prevent wiping all users' mock data
-  - Added confirm password field to Register page
-  - Added confirm new password field to Profile password change form
-  - Upgraded email validation from basic `@` check to proper regex on Login, Register, and Profile pages
-  - Added user-facing error message for empty search submission on Search page
-  - Replaced external placeholder image dependency in MovieCard with inline SVG
 
 ## Aline Andrade Costa
 
